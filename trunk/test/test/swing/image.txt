@@ -1,0 +1,218 @@
+　　图像剪切
+
+　　对于一个已经存在的Image对象，要得到它的一个局部图像，可以使用下面的步骤：
+
+//import Java.awt.*;
+//import java.awt.image.*;
+Image croppedImage;
+ImageFilter cropFilter;
+CropFilter =new CropImageFilter(25,30,75,75);//四个参数分别为图像起点坐标和宽高，即CropImageFilter(int x,int y,int width,int height)，具体情况请参考API
+CroppedImage= Toolkit.getDefaultToolkit().createImage(new FilteredImageSource(sourceImage.getSource(),cropFilter));
+//假如是在Component的子类中使用，可以将上面的Toolkit.getDefaultToolkit().去掉。
+//FilteredImageSource是一个ImageProdUCer对象。
+
+　　图像缩放
+
+　　对于一个已经存在的Image对象，得到它的一个缩放的Image对象可以使用Image的getScaledInstance方法：
+
+Image scaledImage=sourceImage. getScaledInstance(100,100, Image.SCALE_DEFAULT);//得到一个100X100的图像
+Image doubledImage=sourceImage. getScaledInstance(sourceImage.getWidth(this)*2,sourceImage.getHeight(this)*2, Image.SCALE_DEFAULT);//得到一个放大两倍的图像,这个程序一般在一个swing的组件中使用，而类Jcomponent实现了图像观察者接口ImageObserver，所有可以使用this。
+//其它情况请参考API。
+　　灰度变换
+
+　　下面的程序使用三种方法对一个彩色图像进行灰度变换，变换的效果都不一样。一般而言，灰度变换的算法是将象素的三个颜色分量使用R*0.3+ G*0.59＋B*0.11得到灰度值，然后将之赋值给红绿蓝，这样颜色取得的效果就是灰度的。另一种就是取红绿蓝三色中的最大值作为灰度值。java核心包也有一种算法，但是没有看源代码，不知道具体算法是什么样的，效果和上述不同。
+
+/* GrayFilter.java*/
+/*@author:cherami */
+/*email:cherami@163.net*/
+import java.awt.image.*;
+
+public class GrayFilter extends RGBImageFilter {
+int modelStyle;
+public GrayFilter() {
+modelStyle=GrayModel.CS_MAX;
+canFilterIndexColorModel=true;
+}
+public GrayFilter(int style) {
+modelStyle=style;
+canFilterIndexColorModel=true;
+}
+public void setColorModel(ColorModel cm) {
+if (modelStyle==GrayModel.CS_MAX) {
+substituteColorModel(cm,new GrayModel(cm));
+}
+else if (modelStyle==GrayModel.CS_FLOAT) {
+substituteColorModel(cm,new GrayModel(cm,modelStyle));
+}
+}
+public int filterRGB(int x,int y,int pixel) {
+return pixel;
+}
+}
+
+/* GrayModel.java*/
+/*@author:cherami */
+/*email:cherami@163.net*/
+
+import java.awt.image.*;
+
+public class GrayModel extends ColorModel {
+public static final int CS_MAX=0;
+public static final int CS_FLOAT=1;
+ColorModel sourceModel;
+int modelStyle;
+public GrayModel(ColorModel sourceModel) {
+super(sourceModel.getPixelSize());
+this.sourceModel=sourceModel;
+modelStyle=0;
+}
+public GrayModel(ColorModel sourceModel,int style) {
+super(sourceModel.getPixelSize());
+this.sourceModel=sourceModel;
+modelStyle=style;
+}
+public void setGrayStyle(int style) {
+modelStyle=style;
+}
+protected int getGrayLevel(int pixel) {
+if (modelStyle==CS_MAX) {
+return Math.max(sourceModel.getRed(pixel),Math.max(sourceModel.getGreen(pixel),sourceModel.getBlue(pixel)));
+}
+else if (modelStyle==CS_FLOAT){
+return (int)(sourceModel.getRed(pixel)*0.3+sourceModel.getGreen(pixel)*0.59+sourceModel.getBlue(pixel)*0.11);
+}
+else {
+return 0;
+}
+}
+public int getAlpha(int pixel) {
+return sourceModel.getAlpha(pixel);
+}
+public int getRed(int pixel) {
+return getGrayLevel(pixel);
+}
+public int getGreen(int pixel) {
+return getGrayLevel(pixel);
+}
+public int getBlue(int pixel) {
+return getGrayLevel(pixel);
+}
+public int getRGB(int pixel) {
+int gray=getGrayLevel(pixel);
+return (getAlpha(pixel)<<24)+(gray<<16)+(gray<<8)+gray;
+}
+}
+　　假如你有自己的算法或者想取得非凡的效果，你可以修改类GrayModel的方法getGrayLevel()。
+　　色彩变换
+
+　　根据上面的原理，我们也可以实现色彩变换，这样的效果就很多了。下面是一个反转变换的例子：
+
+/* ReverseColorModel.java*/
+/*@author:cherami */
+/*email:cherami@163.net*/
+import java.awt.image.*;
+
+public class ReverseColorModel extends ColorModel {
+ColorModel sourceModel;
+public ReverseColorModel(ColorModel sourceModel) {
+super(sourceModel.getPixelSize());
+this.sourceModel=sourceModel;
+}
+public int getAlpha(int pixel) {
+return sourceModel.getAlpha(pixel);
+}
+public int getRed(int pixel) {
+return ~sourceModel.getRed(pixel);
+}
+public int getGreen(int pixel) {
+return ~sourceModel.getGreen(pixel);
+}
+public int getBlue(int pixel) {
+return ~sourceModel.getBlue(pixel);
+}
+public int getRGB(int pixel) {
+return (getAlpha(pixel)<<24)+(getRed(pixel)<<16)+(getGreen(pixel)<<8)+getBlue(pixel);
+}
+}
+/* ReverseColorModel.java*/
+/*@author:cherami */
+/*email:cherami@163.net*/
+
+import java.awt.image.*;
+
+public class ReverseFilter extends RGBImageFilter {
+public ReverseFilter() {
+canFilterIndexColorModel=true;
+}
+public void setColorModel(ColorModel cm) {
+substituteColorModel(cm,new ReverseColorModel(cm));
+}
+public int filterRGB(int x,int y,int pixel) {
+return pixel;
+}
+}
+　　要想取得自己的效果，需要修改ReverseColorModel.java中的三个方法，getRed、getGreen、getBlue。
+下面是上面的效果的一个总的演示程序。
+
+/*GrayImage.java*/
+/*@author:cherami */
+/*email:cherami@163.net*/
+import java.awt.*;
+import java.awt.image.*;
+import javax.swing.*;
+import java.awt.color.*;
+
+public class GrayImage extends JFrame{
+Image source,gray,gray3,clip,bigimg;
+BufferedImage bimg,gray2;
+GrayFilter filter,filter2;
+ImageIcon ii;
+ImageFilter cropFilter;
+int iw,ih;
+public GrayImage() {
+ii=new ImageIcon("images/11.gif");
+source=ii.getImage();
+iw=source.getWidth(this);
+ih=source.getHeight(this);
+filter=new GrayFilter();
+filter2=new GrayFilter(GrayModel.CS_FLOAT);
+gray=createImage(new FilteredImageSource(source.getSource(),filter));
+gray3=createImage(new FilteredImageSource(source.getSource(),filter2));
+cropFilter=new CropImageFilter(5,5,iw-5,ih-5);
+clip=createImage(new FilteredImageSource(source.getSource(),cropFilter));
+bigimg=source.getScaledInstance(iw*2,ih*2,Image.SCALE_DEFAULT);
+MediaTracker mt=new MediaTracker(this);
+mt.addImage(gray,0);
+try {
+mt.waitForAll();
+} catch (Exception e) {
+}
+}
+public void paint(Graphics g) {
+Graphics2D g2=(Graphics2D)g;
+bimg=new BufferedImage(iw, ih, BufferedImage.TYPE_INT_RGB);
+Graphics2D srcG = bimg.createGraphics();
+RenderingHints rhs = g2.getRenderingHints();
+srcG.setRenderingHints(rhs);
+srcG.drawImage(source, 0, 0, null);
+ColorSpace graySpace=ColorSpace.getInstance(ColorSpace.CS_GRAY);
+ColorConvertOp op=new ColorConvertOp(graySpace,rhs);
+gray2=new BufferedImage(iw, ih, BufferedImage.TYPE_INT_RGB);
+op.filter(bimg,gray2);
+g2.drawImage(source,40,40,this);
+g2.drawImage(gray,80,40,this);
+g2.drawImage(gray2,120,40,this);
+g2.drawImage(gray3,160,40,this);
+g2.drawImage(clip,40,80,this);
+g2.drawImage(bigimg,80,80,this);
+}
+public void update(Graphics g) {
+paint(g);
+}
+public static void main(String args[]) {
+GrayImage m=new GrayImage();
+m.setSize(400,400);
+m.setVisible(true);
+}
+}
+转自：http://www.knowsky.com/363901.html 
