@@ -12,7 +12,9 @@ import javax.swing.JComponent;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.JTextField;
+import javax.swing.JTree;
 import javax.swing.ListSelectionModel;
 import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
@@ -20,11 +22,15 @@ import javax.swing.UnsupportedLookAndFeelException;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
+import org.hxzon.swing.layout.simple.SimpleLayout;
+
 import com.jidesoft.spinner.DateSpinner;
 import com.jidesoft.swing.Calculator;
 import com.jidesoft.swing.CheckBoxList;
+import com.jidesoft.swing.CheckBoxTree;
 import com.jidesoft.swing.DefaultOverlayable;
 import com.jidesoft.swing.FolderChooser;
+import com.jidesoft.swing.JideSplitPane;
 import com.jidesoft.swing.JideSwingUtilities;
 import com.jidesoft.swing.MarqueePane;
 import com.jidesoft.swing.MultilineLabel;
@@ -34,6 +40,7 @@ import com.jidesoft.swing.OverlayableIconsFactory;
 import com.jidesoft.swing.OverlayableUtils;
 import com.jidesoft.swing.RangeSlider;
 import com.jidesoft.swing.SelectAllUtils;
+import com.jidesoft.swing.Sticky;
 import com.jidesoft.swing.TristateCheckBox;
 
 public class JideComponentsDemo {
@@ -41,19 +48,22 @@ public class JideComponentsDemo {
     public static void createAndShowGUI() {
         final JFrame f = new JFrame();
         f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        f.getContentPane().setLayout(new BoxLayout(f.getContentPane(), BoxLayout.Y_AXIS));
-        demo1(f);
-        demo2(f);
-        demo3(f);
-        demo4(f);
+        f.getContentPane().setLayout(new BoxLayout(f.getContentPane(), BoxLayout.X_AXIS));
+        JideSplitPane jideSplitPane=new JideSplitPane();
+        jideSplitPane.add(demo1(f));
+        jideSplitPane.add(demo2());
+        jideSplitPane.add(demo3());
+        jideSplitPane.add(demo4());
+        jideSplitPane.add(demo5());
+        f.add(jideSplitPane);
         f.pack();
         JideSwingUtilities.globalCenterWindow(f);
         f.setVisible(true);
     }
 
-    public static void demo1(final JFrame f) {
+    public static JPanel demo1(final JFrame f) {
         JPanel panel = new JPanel();
-        panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
+        panel.setLayout(new SimpleLayout());
         //folder chooser dialog
         JButton folderChooserButton = new JButton();
         folderChooserButton.setAction(new AbstractAction("选择文件夹") {
@@ -76,24 +86,12 @@ public class JideComponentsDemo {
         JTextField textFieldWithSelectAll2 = new JTextField("select all when focus");
         SelectAllUtils.install(textFieldWithSelectAll2, false);
         panel.add(textFieldWithSelectAll2);
-        //check box list
-        final CheckBoxList checkBoxList = new CheckBoxList(new String[] { "1", "2", "3", "4" });
-        checkBoxList.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
-        checkBoxList.getCheckBoxListSelectionModel().addListSelectionListener(new ListSelectionListener() {
-            public void valueChanged(ListSelectionEvent e) {
-                Object[] selectValues = checkBoxList.getCheckBoxListSelectedValues();
-                for (Object o : selectValues) {
-                    System.out.print(o + ",");
-                }
-                System.out.println();
-            }
-        });
-        panel.add(checkBoxList);
+        
         //old implementation
 //        CheckBoxListWithSelectable list2 = new CheckBoxListWithSelectable(new String[] { "1", "2", "3", "4" });
 //        list.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
 //        panel.add(list2);
-        //
+        //MarqueePane
         String longString = "MarqueePane extends JScrollPane and it automatically scrolls the content. Here is the list of features that MarqueePane supports."
                 + "Changes the scroll direction. It can scroll up, down, right or left. Changes the scroll amount. The number of pixels it scrolls every loop. The smaller, the"
                 + "smoother it appears. Scrolls and stays. For example, when you scroll a text, it can scroll line by line and stay"
@@ -109,12 +107,21 @@ public class JideComponentsDemo {
         verticalMarqueeUp.setStayPosition(14);
         panel.add(horizonMarqueeLeft);
         panel.add(verticalMarqueeUp);
-        f.add(panel);
+      //range slider
+        RangeSlider rangeSlider = new RangeSlider(0, 100, 10, 90);
+        rangeSlider.setPaintTicks(true);
+        rangeSlider.setMajorTickSpacing(10);
+        rangeSlider.setPaintLabels(true);
+        panel.add(rangeSlider);
+        //date spinner
+        DateSpinner dateSpinner = new DateSpinner();
+        panel.add(dateSpinner);
+        return panel;
     }
 
-    public static void demo2(JFrame f) {
+    public static JPanel demo2() {
         JPanel panel = new JPanel();
-        panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
+        panel.setLayout(new SimpleLayout());
         //Calculator
         final JTextField calculatorResultField = new JTextField();
         calculatorResultField.setColumns(20);
@@ -128,34 +135,52 @@ public class JideComponentsDemo {
         });
         panel.add(calculatorResultField);
         panel.add(calculator);
-        f.add(panel);
+      //check box list
+        final CheckBoxList checkBoxList = new CheckBoxList(new String[] { "1", "2", "3", "4" });
+        checkBoxList.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
+        checkBoxList.getCheckBoxListSelectionModel().addListSelectionListener(new ListSelectionListener() {
+            public void valueChanged(ListSelectionEvent e) {
+                Object[] selectValues = checkBoxList.getCheckBoxListSelectedValues();
+                for (Object o : selectValues) {
+                    System.out.print(o + ",");
+                }
+                System.out.println();
+            }
+        });
+        panel.add(new JScrollPane(checkBoxList));
+        return panel;
     }
 
-    public static void demo3(JFrame f) {
+    public static JPanel demo3() {
         JPanel panel = new JPanel();
-        panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
+        panel.setLayout(new SimpleLayout());
         //Overlayable
         //hxzon:have bug
         JLabel info = new JLabel(OverlayableUtils.getPredefinedOverlayIcon(OverlayableIconsFactory.INFO));
         panel.add(new DefaultOverlayable(new OverlayRadioButton("with overlay"), info, DefaultOverlayable.SOUTH_EAST));
         JLabel attention = new JLabel(OverlayableUtils.getPredefinedOverlayIcon(OverlayableIconsFactory.ATTENTION));
         panel.add(new DefaultOverlayable(new OverlayTextField("with overlay"), attention, DefaultOverlayable.SOUTH_EAST));
-        f.add(panel);
+        return panel;
     }
-    
-    public static void demo4(JFrame f){
+
+    public static JPanel demo4() {
+        JPanel panel = new JPanel();
+        panel.setLayout(new SimpleLayout());
+        
+        return panel;
+    }
+
+    public static JPanel demo5() {
         JPanel panel = new JPanel();
         panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
-        //range slider
-        RangeSlider rangeSlider = new RangeSlider(0, 100, 10, 90); 
-        rangeSlider.setPaintTicks(true); 
-        rangeSlider.setMajorTickSpacing(10);  
-        rangeSlider.setPaintLabels(true);
-        panel.add(rangeSlider);
-        //date spinner
-        DateSpinner dateSpinner=new DateSpinner();
-        panel.add(dateSpinner);
-        f.add(panel);
+        //Sticky
+        JTree tree = new JTree();
+        new Sticky(tree);
+        panel.add(new JScrollPane(tree));
+        CheckBoxTree checkBoxTree = new CheckBoxTree();
+        new Sticky(checkBoxTree);
+        panel.add(new JScrollPane(checkBoxTree));
+        return panel;
     }
 
     public static void main(String[] args) {
