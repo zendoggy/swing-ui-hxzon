@@ -20,6 +20,7 @@ import javax.swing.UnsupportedLookAndFeelException;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
+import com.jidesoft.spinner.DateSpinner;
 import com.jidesoft.swing.Calculator;
 import com.jidesoft.swing.CheckBoxList;
 import com.jidesoft.swing.DefaultOverlayable;
@@ -31,6 +32,7 @@ import com.jidesoft.swing.OverlayRadioButton;
 import com.jidesoft.swing.OverlayTextField;
 import com.jidesoft.swing.OverlayableIconsFactory;
 import com.jidesoft.swing.OverlayableUtils;
+import com.jidesoft.swing.RangeSlider;
 import com.jidesoft.swing.SelectAllUtils;
 import com.jidesoft.swing.TristateCheckBox;
 
@@ -43,6 +45,7 @@ public class JideComponentsDemo {
         demo1(f);
         demo2(f);
         demo3(f);
+        demo4(f);
         f.pack();
         JideSwingUtilities.globalCenterWindow(f);
         f.setVisible(true);
@@ -137,6 +140,21 @@ public class JideComponentsDemo {
         panel.add(new DefaultOverlayable(new OverlayRadioButton("with overlay"), info, DefaultOverlayable.SOUTH_EAST));
         JLabel attention = new JLabel(OverlayableUtils.getPredefinedOverlayIcon(OverlayableIconsFactory.ATTENTION));
         panel.add(new DefaultOverlayable(new OverlayTextField("with overlay"), attention, DefaultOverlayable.SOUTH_EAST));
+        f.add(panel);
+    }
+    
+    public static void demo4(JFrame f){
+        JPanel panel = new JPanel();
+        panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
+        //range slider
+        RangeSlider rangeSlider = new RangeSlider(0, 100, 10, 90); 
+        rangeSlider.setPaintTicks(true); 
+        rangeSlider.setMajorTickSpacing(10);  
+        rangeSlider.setPaintLabels(true);
+        panel.add(rangeSlider);
+        //date spinner
+        DateSpinner dateSpinner=new DateSpinner();
+        panel.add(dateSpinner);
         f.add(panel);
     }
 
