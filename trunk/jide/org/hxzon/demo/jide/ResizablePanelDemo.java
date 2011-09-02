@@ -2,16 +2,19 @@ package org.hxzon.demo.jide;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
-import java.awt.FlowLayout;
 
+import javax.swing.BoxLayout;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.ListSelectionModel;
 import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 import javax.swing.border.EmptyBorder;
 
+import com.jidesoft.swing.CheckBoxList;
 import com.jidesoft.swing.JideSwingUtilities;
 import com.jidesoft.swing.ResizablePanel;
 
@@ -25,15 +28,12 @@ public class ResizablePanelDemo {
         JideSwingUtilities.globalCenterWindow(f);
         f.setVisible(true);
     }
-    
-    public static void demo(JFrame f){
-        final JPanel content = new JPanel();
-        content.setBackground(Color.blue);
+
+    public static void demo(JFrame f) {
         JLabel label = new JLabel("hello world");
-        content.add(label);
-        content.setSize(100, 200);
+        final CheckBoxList checkBoxList = new CheckBoxList(new String[] { "1", "2", "3", "4", "5", "6", "7", "8" });
+        checkBoxList.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
         ResizablePanel resizablePanel = new ResizablePanel();
-        resizablePanel.setLayout(new FlowLayout());
         resizablePanel.setBackground(Color.red);
 //        resizePanel.setBorder(new EmptyBorder(4, 4, 4, 4) {
 //            @Override
@@ -47,7 +47,18 @@ public class ResizablePanelDemo {
 //                }
 //            }
 //        });
-        resizablePanel.setBorder(new EmptyBorder(1,1,1,1));
+        resizablePanel.setBorder(new EmptyBorder(1, 1, 1, 1));
+        //default layout is BorderLayout
+//        resizablePanel.setLayout(new FlowLayout());
+        //set BoxLayout will can't resizable?
+//        resizablePanel.setLayout(new BoxLayout(resizablePanel,BoxLayout.Y_AXIS));
+//        resizablePanel.add(label);
+//        resizablePanel.add(new JScrollPane(checkBoxList));
+        //
+        JPanel content = new JPanel();
+        content.setLayout(new BoxLayout(content, BoxLayout.Y_AXIS));
+        content.add(label);
+        content.add(new JScrollPane(checkBoxList));
         resizablePanel.add(content);
         JPanel p5 = new JPanel();
         p5.setBackground(Color.green);
