@@ -16,6 +16,7 @@ import org.jdesktop.swingx.JXList;
 import org.jdesktop.swingx.decorator.ColorHighlighter;
 import org.jdesktop.swingx.decorator.ComponentAdapter;
 import org.jdesktop.swingx.decorator.HighlightPredicate;
+import org.jdesktop.swingx.decorator.HighlighterFactory;
 import org.jdesktop.swingx.renderer.DefaultListRenderer;
 import org.jdesktop.swingx.renderer.StringValues;
 
@@ -58,7 +59,8 @@ public class JXListDemo extends JFrame {
 //        list.addHighlighter(new PainterHighlighter(predicate, goldStarPainter));
         list.setRolloverEnabled(true);
         //highlight odd row
-        list.addHighlighter(new ColorHighlighter(HighlightPredicate.ODD, Color.decode("#d6e7ff"), null));
+//        list.addHighlighter(new ColorHighlighter(HighlightPredicate.ODD, Color.decode("#d6e7ff"), null));
+        list.addHighlighter(HighlighterFactory.createSimpleStriping());
         //highlight mouse hover
         list.addHighlighter(new ColorHighlighter(HighlightPredicate.ROLLOVER_ROW, Color.BLUE, Color.RED));
         //ctrl+F open a search dialog
@@ -83,7 +85,6 @@ public class JXListDemo extends JFrame {
             public void run() {
                 try {
                     new JXListDemo().setVisible(true);
-                    ;
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -91,6 +92,7 @@ public class JXListDemo extends JFrame {
         });
 
     }
+    
     public static Person[] personData(){
         return new Person[]{
                 new Person("1", "hello@163.com"),

@@ -76,7 +76,7 @@ public class JideComponentsDemo {
 
         });
         panel.add(folderChooserButton);
-        //
+        //TristateCheckBox
         TristateCheckBox tristateCheckBox = new TristateCheckBox("tristate checkbox");
         panel.add(tristateCheckBox);
         //select all when focus
@@ -87,10 +87,6 @@ public class JideComponentsDemo {
         SelectAllUtils.install(textFieldWithSelectAll2, false);
         panel.add(textFieldWithSelectAll2);
         
-        //old implementation
-//        CheckBoxListWithSelectable list2 = new CheckBoxListWithSelectable(new String[] { "1", "2", "3", "4" });
-//        list.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
-//        panel.add(list2);
         //MarqueePane
         String longString = "MarqueePane extends JScrollPane and it automatically scrolls the content. Here is the list of features that MarqueePane supports."
                 + "Changes the scroll direction. It can scroll up, down, right or left. Changes the scroll amount. The number of pixels it scrolls every loop. The smaller, the"
@@ -107,13 +103,13 @@ public class JideComponentsDemo {
         verticalMarqueeUp.setStayPosition(14);
         panel.add(horizonMarqueeLeft);
         panel.add(verticalMarqueeUp);
-      //range slider
+        //range slider
         RangeSlider rangeSlider = new RangeSlider(0, 100, 10, 90);
         rangeSlider.setPaintTicks(true);
         rangeSlider.setMajorTickSpacing(10);
         rangeSlider.setPaintLabels(true);
         panel.add(rangeSlider);
-        //date spinner
+        //date spinner,select when mouse wheel
         DateSpinner dateSpinner = new DateSpinner();
         panel.add(dateSpinner);
         return panel;
@@ -135,7 +131,7 @@ public class JideComponentsDemo {
         });
         panel.add(calculatorResultField);
         panel.add(calculator);
-      //check box list
+        //check box list
         final CheckBoxList checkBoxList = new CheckBoxList(new String[] { "1", "2", "3", "4" });
         checkBoxList.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
         checkBoxList.getCheckBoxListSelectionModel().addListSelectionListener(new ListSelectionListener() {
@@ -148,6 +144,10 @@ public class JideComponentsDemo {
             }
         });
         panel.add(new JScrollPane(checkBoxList));
+        //old implementation
+//        CheckBoxListWithSelectable list2 = new CheckBoxListWithSelectable(new String[] { "1", "2", "3", "4" });
+//        list.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
+//        panel.add(list2);
         return panel;
     }
 
