@@ -1,0 +1,52 @@
+    public static void main(String[] args) throws Exception {
+        File file = new File("src/test.txt");
+        FileInputStream in = new FileInputStream(file);
+        ByteArrayOutputStream bout = new ByteArrayOutputStream();
+        //ByteArrayOutputStream() 
+        // 创建一个新的字节数组输出流。
+
+        byte[] tmpbuf = new byte[1024];
+        int count = 0, count1 = 0;
+
+        while ((count = in.read(tmpbuf)) != -1) {
+            bout.write(tmpbuf, 0, count);
+            tmpbuf = new byte[1024];
+            count1++;
+        }
+        System.out.println("count1=" + count1);
+        in.close();
+        //public void write(byte[] b, int off, int len)将指定字节数组中从偏移量 off 开始的 len 个字节写入此字节数组输出流。 
+        //覆盖：
+        //类 OutputStream 中的 write
+        //参数：
+        //b - 数据。
+        //off - 数据的初始偏移量。
+        //len - 要写入的字节数。
+
+        byte[] orgData = bout.toByteArray();
+        KeyPair keyPair = RSAUtil.generateKeyPair();
+
+        RSAPublicKey pubKey = (RSAPublicKey) keyPair.getPublic();
+        RSAPrivateKey priKey = (RSAPrivateKey) keyPair.getPrivate();
+
+        byte[] pubModBytes = pubKey.getModulus().toByteArray();
+        byte[] pubPubExpBytes = pubKey.getPublicExponent().toByteArray();
+        byte[] priModBytes = priKey.getModulus().toByteArray();
+        byte[] priPriExpBytes = priKey.getPrivateExponent().toByteArray();
+
+        RSAPublicKey recoveryPubKey = generateRSAPublicKey(pubModBytes, pubPubExpBytes);
+        RSAPrivateKey recoveryPriKey = generateRSAPrivateKey(priModBytes, priPriExpBytes);
+
+        byte[] raw = RSAUtil.encrypt(priKey, orgData);
+        file = new File("src/encrypt_result.txt");
+        OutputStream out = new FileOutputStream(file);
+        out.write(raw);
+        out.close();
+
+        byte[] data = RSAUtil.decrypt(recoveryPubKey, raw);
+        file = new File("src/decrypt_result.txt");
+        out = new FileOutputStream(file);
+        out.write(data);
+        out.flush();
+        out.close();
+    }
