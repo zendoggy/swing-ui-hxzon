@@ -24,7 +24,7 @@
 	<classpathentry kind="src" path="jna"/>
 	<classpathentry kind="src" path="layout"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
-	<classpathentry kind="lib" path="lib/swingx/swingx-core-1.6.2.jar"/>
+	<classpathentry kind="lib" path="lib/swingx/swingx-core-1.6.2.jar" sourcepath="D:/WorkspacesMyEclipse/swing-ui/lib/swingx/swingx-1.6.2-sources.zip"/>
 	<classpathentry kind="lib" path="lib/jide/jide-oss-3.2.1.jar" sourcepath="D:/WorkspacesMyEclipse/swing-ui/lib/jide/jide-oss-src-3.2.1.zip"/>
 	<classpathentry kind="lib" path="lib/timingframework/timingframework-swing-3.0.jar"/>
 	<classpathentry kind="lib" path="lib/trident/trident.jar" sourcepath="D:/WorkspacesMyEclipse/swing-ui/lib/trident/trident-sources-1.3.zip"/>
@@ -83,5 +83,6 @@
 	<classpathentry kind="lib" path="lib/other/commons-lang-2.4.jar"/>
 	<classpathentry kind="lib" path="lib/prefuse/prefuse-beta-20071021.jar" sourcepath="D:/WorkspacesMyEclipse/swing-ui/lib/prefuse/prefuse.src-beta-20071021.jar"/>
 	<classpathentry kind="lib" path="lib/prefuse/prefuse.src-beta-20071021.jar"/>
+	<classpathentry kind="lib" path="lib/other/bcprov-jdk16-146.jar" sourcepath="D:/WorkspacesMyEclipse/swing-ui/lib/other/bcprov-jdk16-146-src.zip"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
