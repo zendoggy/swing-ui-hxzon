@@ -6,10 +6,6 @@ import java.awt.Rectangle;
 import java.awt.Robot;
 import java.awt.Toolkit;
 import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.IOException;
-
-import javax.imageio.ImageIO;
 
 public class ScreenCapturingUtil {
 
@@ -45,36 +41,4 @@ public class ScreenCapturingUtil {
         }
     }
 
-    public static void output(BufferedImage image, String filepath) {
-        try {
-            if (filepath.endsWith("png")) {
-                ImageIO.write(image, "png", new File(filepath));
-            }
-            if (filepath.endsWith("bmp")) {
-                ImageIO.write(image, "bmp", new File(filepath));
-            }
-            if (filepath.endsWith("gif")) {
-                ImageIO.write(image, "gif", new File(filepath));
-            }
-            if (filepath.endsWith("jpg")) {
-                ImageIO.write(image, "jpg", new File(filepath));
-            }
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-    }
-
-    public static void main(String[] args) {
-        BufferedImage image = ScreenCapturingUtil.capture(200, 200, 600, 600, 3000);
-        if (image != null) {
-            ScreenCapturingUtil.output(image, "screen.jpg");
-            ScreenCapturingUtil.output(image, "screen.png");
-        }
-        image = ScreenCapturingUtil.capture(3000);
-        if (image != null) {
-            ScreenCapturingUtil.output(image, "fullScreen.jpg");
-            ScreenCapturingUtil.output(image, "fullScreen.png");
-        }
-        System.out.println("ok");
-    }
 }
