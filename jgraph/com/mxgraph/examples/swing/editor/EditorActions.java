@@ -1,5 +1,5 @@
 /*
- * $Id: EditorActions.java,v 1.30 2010-10-01 06:09:17 gaudenz Exp $
+ * $Id: EditorActions.java,v 1.35 2011-02-14 15:45:58 gaudenz Exp $
  * Copyright (c) 2001-2010, Gaudenz Alder, David Benson
  * 
  * All rights reserved.
@@ -49,11 +49,12 @@ import javax.swing.text.html.HTMLDocument;
 import javax.swing.text.html.HTMLEditorKit;
 
 import org.w3c.dom.Document;
-import org.w3c.dom.Node;
 
 import com.mxgraph.analysis.mxDistanceCostFunction;
 import com.mxgraph.analysis.mxGraphAnalysis;
 import com.mxgraph.canvas.mxGraphics2DCanvas;
+import com.mxgraph.canvas.mxICanvas;
+import com.mxgraph.canvas.mxSvgCanvas;
 import com.mxgraph.io.mxCodec;
 import com.mxgraph.io.mxGdCodec;
 import com.mxgraph.io.mxVdxCodec;
@@ -61,7 +62,6 @@ import com.mxgraph.io.gd.mxGdDocument;
 import com.mxgraph.model.mxCell;
 import com.mxgraph.model.mxGraphModel;
 import com.mxgraph.model.mxIGraphModel;
-import com.mxgraph.shape.mxIShape;
 import com.mxgraph.shape.mxStencilShape;
 import com.mxgraph.swing.mxGraphComponent;
 import com.mxgraph.swing.mxGraphOutline;
@@ -69,12 +69,13 @@ import com.mxgraph.swing.handler.mxConnectionHandler;
 import com.mxgraph.swing.util.mxGraphActions;
 import com.mxgraph.swing.view.mxCellEditor;
 import com.mxgraph.util.mxCellRenderer;
+import com.mxgraph.util.mxCellRenderer.CanvasFactory;
 import com.mxgraph.util.mxConstants;
 import com.mxgraph.util.mxResources;
 import com.mxgraph.util.mxUtils;
-import com.mxgraph.util.png.mxPNGzTXtDecoder;
 import com.mxgraph.util.png.mxPngEncodeParam;
 import com.mxgraph.util.png.mxPngImageEncoder;
+import com.mxgraph.util.png.mxPngTextDecoder;
 import com.mxgraph.view.mxGraph;
 
 /**
@@ -716,9 +717,25 @@ public class EditorActions
 
 					if (ext.equalsIgnoreCase("svg"))
 					{
-						mxUtils.writeFile(mxUtils.getXml(mxCellRenderer
-								.createSvgDocument(graph, null, 1, null, null)
-								.getDocumentElement()), filename);
+						mxSvgCanvas canvas = (mxSvgCanvas) mxCellRenderer
+								.drawCells(graph, null, 1, null,
+										new CanvasFactory()
+										{
+											public mxICanvas createCanvas(
+													int width, int height)
+											{
+												mxSvgCanvas canvas = new mxSvgCanvas(
+														mxUtils.createSvgDocument(
+																width, height));
+												canvas.setEmbedded(true);
+
+												return canvas;
+											}
+
+										});
+
+						mxUtils.writeFile(mxUtils.getXml(canvas.getDocument()),
+								filename);
 					}
 					else if (selectedFilter == vmlFileFilter)
 					{
@@ -1457,8 +1474,8 @@ public class EditorActions
 		 * @param path The path to the directory the shape exists in
 		 * @return the string name of the shape
 		 */
-		public static String addStencilShape(EditorPalette palette, String nodeXml,
-				String path)
+		public static String addStencilShape(EditorPalette palette,
+				String nodeXml, String path)
 		{
 
 			// Some editors place a 3 byte BOM at the start of files
@@ -1482,7 +1499,7 @@ public class EditorActions
 			{
 				palette.addTemplate(name, icon, "shape=" + name, 80, 80, "");
 			}
-			
+
 			return name;
 		}
 
@@ -1530,8 +1547,10 @@ public class EditorActions
 										}
 									}))
 							{
-								String nodeXml = mxUtils.readFile(f.getAbsolutePath());
-								addStencilShape(palette, nodeXml, f.getParent() + File.separator);
+								String nodeXml = mxUtils.readFile(f
+										.getAbsolutePath());
+								addStencilShape(palette, nodeXml, f.getParent()
+										+ File.separator);
 							}
 
 							JComponent scrollPane = (JComponent) palette
@@ -1590,8 +1609,8 @@ public class EditorActions
 		protected void openXmlPng(BasicGraphEditor editor, File file)
 				throws IOException
 		{
-			Map<String, String> text = mxPNGzTXtDecoder
-					.decodezTXt(new FileInputStream(file));
+			Map<String, String> text = mxPngTextDecoder
+					.decodeCompressedText(new FileInputStream(file));
 
 			if (text != null)
 			{
@@ -2207,8 +2226,8 @@ public class EditorActions
 
 				if (newColor != null)
 				{
-					graphComponent.getViewport().setOpaque(false);
-					graphComponent.setBackground(newColor);
+					graphComponent.getViewport().setOpaque(true);
+					graphComponent.getViewport().setBackground(newColor);
 				}
 
 				// Forces a repaint of the outline
