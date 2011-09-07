@@ -29,49 +29,64 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */ 
 
-package layout;
+package demo.layout.spring;
 
-/*
- * A 1.4 application that uses SpringLayout to lay out a grid.
- * Other files required: SpringUtilities.java
- */
+import javax.swing.SpringLayout;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JTextField;
+import java.awt.Container;
 
-import javax.swing.*;
-import java.awt.*;
-
-public class SpringGrid {
+public class SpringDemo3 {
     /**
      * Create the GUI and show it.  For thread safety,
      * this method should be invoked from the
      * event-dispatching thread.
      */
     private static void createAndShowGUI() {
-        //Create the panel and populate it.
-        JPanel panel = new JPanel(new SpringLayout());
-        for (int i = 0; i < 9; i++) {
-            JTextField textField = new JTextField(Integer.toString(i));
-
-            //Make the 4th field extra big.
-            if (i == 4) {
-                textField.setText("This one is extra long.");
-            }
-
-            panel.add(textField);
-        }
-
-        //Lay out the panel.
-        SpringUtilities.makeGrid(panel,
-                                 3, 3, //rows, cols
-                                 5, 5, //initialX, initialY
-                                 5, 5);//xPad, yPad
-
         //Create and set up the window.
-        JFrame frame = new JFrame("SpringGrid");
+        JFrame frame = new JFrame("SpringDemo3");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
         //Set up the content pane.
-        panel.setOpaque(true); //content panes must be opaque
-        frame.setContentPane(panel);
+        Container contentPane = frame.getContentPane();
+        SpringLayout layout = new SpringLayout();
+        contentPane.setLayout(layout);
+
+        //Create and add the components.
+        JLabel label = new JLabel("Label: ");
+        JTextField textField = new JTextField("Text field", 15);
+        contentPane.add(label);
+        contentPane.add(textField);
+
+        //Adjust constraints for the label so it's at (5,5).
+        layout.putConstraint(SpringLayout.WEST, label,
+                             5,
+                             SpringLayout.WEST, contentPane);
+        layout.putConstraint(SpringLayout.NORTH, label,
+                             5,
+                             SpringLayout.NORTH, contentPane);
+
+        //Adjust constraints for the text field so it's at
+        //(<label's right edge> + 5, 5).
+        layout.putConstraint(SpringLayout.WEST, textField,
+                             5,
+                             SpringLayout.EAST, label);
+        layout.putConstraint(SpringLayout.NORTH, textField,
+                             5,
+                             SpringLayout.NORTH, contentPane);
+
+        //Adjust constraints for the content pane: Its right
+        //edge should be 5 pixels beyond the text field's right
+        //edge, and its bottom edge should be 5 pixels beyond
+        //the bottom edge of the tallest component (which we'll
+        //assume is textField).
+        layout.putConstraint(SpringLayout.EAST, contentPane,
+                             5,
+                             SpringLayout.EAST, textField);
+        layout.putConstraint(SpringLayout.SOUTH, contentPane,
+                             5,
+                             SpringLayout.SOUTH, textField);
 
         //Display the window.
         frame.pack();
