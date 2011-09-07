@@ -29,7 +29,7 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */ 
 
-package layout;
+package demo.layout.spring;
 
 import javax.swing.SpringLayout;
 import javax.swing.Spring;

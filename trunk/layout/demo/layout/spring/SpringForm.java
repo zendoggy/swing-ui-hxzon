@@ -29,49 +29,49 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */ 
 
-package layout;
+package demo.layout.spring;
 
 /*
- * A 1.4 application that uses SpringLayout to create a compact grid.
+ * A 1.4 application that uses SpringLayout to create a forms-type layout.
  * Other files required: SpringUtilities.java.
  */
 
 import javax.swing.*;
 import java.awt.*;
 
-public class SpringCompactGrid {
+public class SpringForm {
     /**
      * Create the GUI and show it.  For thread safety,
      * this method should be invoked from the
      * event-dispatching thread.
      */
     private static void createAndShowGUI() {
-        JPanel panel = new JPanel(new SpringLayout());
+        String[] labels = {"Name: ", "Fax: ", "Email: ", "Address: "};
+        int numPairs = labels.length;
 
-        int rows = 10;
-        int cols = 10;
-        for (int r = 0; r < rows; r++) {
-            for (int c = 0; c < cols; c++) {
-                int anInt = (int) Math.pow(r, c);
-                JTextField textField =
-                        new JTextField(Integer.toString(anInt));
-                panel.add(textField);
-            }
+        //Create and populate the panel.
+        JPanel p = new JPanel(new SpringLayout());
+        for (int i = 0; i < numPairs; i++) {
+            JLabel l = new JLabel(labels[i], JLabel.TRAILING);
+            p.add(l);
+            JTextField textField = new JTextField(10);
+            l.setLabelFor(textField);
+            p.add(textField);
         }
 
         //Lay out the panel.
-        SpringUtilities.makeCompactGrid(panel, //parent
-                                        rows, cols,
-                                        3, 3,  //initX, initY
-                                        3, 3); //xPad, yPad
+        SpringUtilities.makeCompactGrid(p,
+                                        numPairs, 2, //rows, cols
+                                        6, 6,        //initX, initY
+                                        6, 6);       //xPad, yPad
 
         //Create and set up the window.
-        JFrame frame = new JFrame("SpringCompactGrid");
+        JFrame frame = new JFrame("SpringForm");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
         //Set up the content pane.
-        panel.setOpaque(true); //content panes must be opaque
-        frame.setContentPane(panel);
+        p.setOpaque(true);  //content panes must be opaque
+        frame.setContentPane(p);
 
         //Display the window.
         frame.pack();

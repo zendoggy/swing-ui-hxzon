@@ -14,7 +14,6 @@
 	<classpathentry kind="src" path="jfreechart"/>
 	<classpathentry kind="src" path="jgraph"/>
 	<classpathentry kind="src" path="prefuse"/>
-	<classpathentry kind="src" path="layout.spring"/>
 	<classpathentry kind="src" path="fest"/>
 	<classpathentry kind="src" path="src.calendar.toedter"/>
 	<classpathentry kind="src" path="src.ibm.iframe"/>
@@ -37,13 +36,11 @@
 	<classpathentry kind="lib" path="lib/flexdock/mediaplayer.jar"/>
 	<classpathentry kind="lib" path="lib/flexdock/multiplayer.jar"/>
 	<classpathentry kind="lib" path="lib/flexdock/skinlf.jar"/>
-	<!-- graph -->
 	<classpathentry kind="lib" path="lib/jfreechart/jcommon-1.0.16.jar" sourcepath="lib/jfreechart/jcommon-1.0.16-source.zip"/>
 	<classpathentry kind="lib" path="lib/jfreechart/jfreechart-1.0.13.jar" sourcepath="lib/jfreechart/jfreechart-1.0.13-source.zip"/>
 	<classpathentry kind="lib" path="lib/jgraphx/jgraphx.jar"/>
 	<classpathentry kind="lib" path="lib/prefuse/prefuse-beta-20071021.jar" sourcepath="lib/prefuse/prefuse.src-beta-20071021.jar"/>
 	<classpathentry kind="lib" path="lib/prefuse/prefuse.src-beta-20071021.jar"/>
-	<!-- end graph -->
 	<classpathentry kind="lib" path="lib/springRichclient/spring-richclient-core-1.1.0.jar"/>
 	<classpathentry kind="lib" path="lib/springRichclient/spring-richclient-jdk6-1.1.0.jar"/>
 	<classpathentry kind="lib" path="lib/springRichclient/spring-richclient-resources-1.1.0.jar"/>
@@ -73,7 +70,6 @@
 	<classpathentry kind="lib" path="lib/jung/wstx-asl-3.2.6.jar"/>
 	<classpathentry kind="lib" path="lib/jni/jna.jar"/>
 	<classpathentry kind="lib" path="lib/jni/platform.jar"/>
-	<!-- test,log,other -->
 	<classpathentry kind="lib" path="lib/festSwing/fest-swing-1.2a2-sources.jar"/>
 	<classpathentry kind="lib" path="lib/festSwing/fest-swing-1.2a2.jar"/>
 	<classpathentry kind="lib" path="lib/test/junit-4.3.1.jar"/>
