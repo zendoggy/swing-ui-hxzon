@@ -20,6 +20,7 @@ import org.jdesktop.swingx.treetable.TreeTableModel;
 
 public class JXTreeTableUseFileSystemModelDemo extends JFrame {
     public JXTreeTableUseFileSystemModelDemo() {
+        super("file system treetable");
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.getContentPane().setLayout(new SimpleLayout());
         this.add(demo(), SimpleLayoutData.fillPercent(100));

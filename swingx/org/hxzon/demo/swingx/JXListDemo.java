@@ -21,7 +21,10 @@ import org.jdesktop.swingx.renderer.DefaultListRenderer;
 import org.jdesktop.swingx.renderer.StringValues;
 
 public class JXListDemo extends JFrame {
+    private static final long serialVersionUID = 1L;
+
     public JXListDemo() {
+        super("JXList Demo");
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.getContentPane().setLayout(new SimpleLayout());
         this.add(demo(), SimpleLayoutData.fillPercent(100));
