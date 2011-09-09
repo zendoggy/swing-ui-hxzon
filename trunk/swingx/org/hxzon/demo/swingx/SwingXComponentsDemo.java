@@ -22,6 +22,7 @@ import org.jdesktop.swingx.JXCollapsiblePane;
 import org.jdesktop.swingx.JXCollapsiblePane.Direction;
 import org.jdesktop.swingx.JXColorSelectionButton;
 import org.jdesktop.swingx.JXDatePicker;
+import org.jdesktop.swingx.JXFrame;
 import org.jdesktop.swingx.JXGraph;
 import org.jdesktop.swingx.JXHyperlink;
 import org.jdesktop.swingx.JXMonthView;
@@ -33,19 +34,18 @@ import org.jdesktop.swingx.image.StackBlurFilter;
 import org.jdesktop.swingx.painter.AbstractPainter;
 import org.jdesktop.swingx.painter.MattePainter;
 
-public class SwingXComponentsDemo extends JFrame {
+public class SwingXComponentsDemo extends JXFrame {
     private static final long serialVersionUID = 1L;
 
     public SwingXComponentsDemo() {
         super("SwingX Components Demo");
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.getContentPane().setLayout(new SimpleLayout());
-        init();
+        demo();
         this.pack();
-        this.setVisible(true);
     }
 
-    public void init() {
+    public void demo() {
         demo1();
         demo2();
         demo3();
@@ -91,6 +91,7 @@ public class SwingXComponentsDemo extends JFrame {
         panel.add(textFieldWithPrompt);
         //JXDatePicker
         JXDatePicker datePicker = new JXDatePicker();
+        datePicker.setFormats("yyyy-MM-dd", "yyyy,MM,dd", "yyyy.MM.dd", "yyyyMMdd");
         Calendar calendar = datePicker.getMonthView().getCalendar();
         // starting today if we are in a hurry
         calendar.setTime(new Date());
@@ -157,7 +158,7 @@ public class SwingXComponentsDemo extends JFrame {
         SwingUtilities.invokeLater(new Runnable() {
             public void run() {
                 try {
-                    new SwingXComponentsDemo();
+                    new SwingXComponentsDemo().setVisible(true);
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
