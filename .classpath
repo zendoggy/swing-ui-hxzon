@@ -8,9 +8,7 @@
 	<classpathentry excluding="demo/" kind="src" path="jide"/>
 	<classpathentry kind="src" path="timingframework"/>
 	<classpathentry kind="src" path="trident"/>
-	<classpathentry kind="src" path="other"/>
-	<classpathentry kind="src" path="swingworker"/>
-	<classpathentry excluding="test/swing/DwindlePic.java" kind="src" path="test"/>
+	<classpathentry kind="src" path="swing"/>
 	<classpathentry kind="src" path="jfreechart"/>
 	<classpathentry kind="src" path="jgraph"/>
 	<classpathentry kind="src" path="prefuse"/>
