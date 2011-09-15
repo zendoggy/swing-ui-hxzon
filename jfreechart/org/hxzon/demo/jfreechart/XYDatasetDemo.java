@@ -210,7 +210,7 @@ public class XYDatasetDemo extends ApplicationFrame {
     }
 
     private static JFreeChart createXYLineChart(XYDataset dataset) {
-    
+
         JFreeChart chart = ChartFactory.createXYLineChart("Legal & General Unit Trust Prices", // title
                 "Date", // x-axis label
                 "Price Per Unit", // y-axis label
@@ -219,9 +219,9 @@ public class XYDatasetDemo extends ApplicationFrame {
                 true, // tooltips?
                 false // URLs?
                 );
-    
+
         chart.setBackgroundPaint(Color.white);
-    
+
         XYPlot plot = (XYPlot) chart.getPlot();
         plot.setBackgroundPaint(Color.lightGray);
         plot.setDomainGridlinePaint(Color.white);
@@ -229,10 +229,10 @@ public class XYDatasetDemo extends ApplicationFrame {
         plot.setAxisOffset(new RectangleInsets(5.0, 5.0, 5.0, 5.0));
         plot.setDomainCrosshairVisible(true);
         plot.setRangeCrosshairVisible(true);
-    
+
         NumberAxis domainAxis = (NumberAxis) plot.getDomainAxis();
         domainAxis.setNumberFormatOverride(new MyNumberFormat());
-    
+
         return chart;
     }
 
