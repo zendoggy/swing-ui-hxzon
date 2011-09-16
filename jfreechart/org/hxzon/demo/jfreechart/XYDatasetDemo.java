@@ -45,13 +45,11 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
-import java.text.FieldPosition;
-import java.text.NumberFormat;
-import java.text.ParsePosition;
 import java.text.SimpleDateFormat;
 
 import org.hxzon.swing.components.easy.HEasyJComboBox;
 import org.hxzon.swing.model.HEasyJModelValue;
+import org.hxzon.util.MyNumberFormat;
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartPanel;
 import org.jfree.chart.JFreeChart;
@@ -312,7 +310,7 @@ public class XYDatasetDemo extends ApplicationFrame {
         plot.setRangeCrosshairVisible(true);
 
         NumberAxis domainAxis = (NumberAxis) plot.getDomainAxis();
-        domainAxis.setNumberFormatOverride(new MyNumberFormat());
+        domainAxis.setNumberFormatOverride(MyNumberFormat.getMyNumberFormat());
 
         return chart;
     }
@@ -364,43 +362,6 @@ public class XYDatasetDemo extends ApplicationFrame {
             }
 
         }
-    }
-
-    public static class MyNumberFormat extends NumberFormat {
-        private static final long serialVersionUID = 1L;
-        private static final double G = 1000 * 1000 * 1000;
-        private static final double M = 1000 * 1000;
-        private static final double K = 1000;
-
-        @Override
-        public StringBuffer format(double number, StringBuffer toAppendTo, FieldPosition pos) {
-            if (number >= G) {
-                return toAppendTo.append(number / G).append(" G");
-            } else if (number >= M) {
-                return toAppendTo.append(number / M).append(" M");
-            } else if (number >= K) {
-                return toAppendTo.append(number / K).append(" K");
-            }
-            return toAppendTo.append(number);
-        }
-
-        @Override
-        public StringBuffer format(long number, StringBuffer toAppendTo, FieldPosition pos) {
-            if (number >= G) {
-                return toAppendTo.append(number / G).append(" G");
-            } else if (number >= M) {
-                return toAppendTo.append(number / M).append(" M");
-            } else if (number >= K) {
-                return toAppendTo.append(number / K).append(" K");
-            }
-            return toAppendTo.append(number);
-        }
-
-        @Override
-        public Number parse(String source, ParsePosition parsePosition) {
-            return null;
-        }
-
     }
 
     public static void main(String[] args) {
