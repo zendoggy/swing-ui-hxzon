@@ -193,15 +193,15 @@ public class DatasetVisibleDemo2 extends ApplicationFrame {
         XYPlot plot = new XYPlot(dataset, timeAxis, valueAxis, null) {
             private static final long serialVersionUID = 1L;
 
-            public void rendererChanged(RendererChangeEvent event) {
-                // if the event was caused by a change to series visibility, then
-                // the axis ranges might need updating...
-                if (event.getSeriesVisibilityChanged()) {
-//                    configureDomainAxes();
-//                    configureRangeAxes();
-                }
-                fireChangeEvent();
-            }
+//            public void rendererChanged(RendererChangeEvent event) {
+//                // if the event was caused by a change to series visibility, then
+//                // the axis ranges might need updating...
+//                if (event.getSeriesVisibilityChanged()) {
+////                    configureDomainAxes();
+////                    configureRangeAxes();
+//                }
+//                fireChangeEvent();
+//            }
         };
         plot.setRenderer(renderer);
         plot.setBackgroundPaint(plotBackgroundPaint);
