@@ -72,11 +72,10 @@ import org.jfree.ui.RefineryUtilities;
 
 public class DatasetVisibleDemo extends ApplicationFrame {
 
+    private static final long serialVersionUID = 1L;
     private static final String series1Name = "series 1";
     private static final String series2Name = "series 2";
     private static final String series3Name = "series 3";
-    private static final Paint plotBackgroundPaint = Color.lightGray;
-    private static final long serialVersionUID = 1L;
     private static XYDataset dataset = createDataset();
     private static JFreeChart timeSeriesChart = createTimeSeriesChart(dataset);
 
@@ -175,13 +174,10 @@ public class DatasetVisibleDemo extends ApplicationFrame {
         valueAxis.setAutoRangeIncludesZero(false); // override default
 //        valueAxis.setAutoRange(false);
 //        valueAxis.setDefaultAutoRange(new Range(100, 1150));
-        //Render
-
+        //Renderer
         XYToolTipGenerator toolTipGenerator = StandardXYToolTipGenerator.getTimeSeriesInstance();
-
         XYURLGenerator urlGenerator = null;
 //            urlGenerator = new StandardXYURLGenerator();
-
         XYLineAndShapeRenderer renderer = new XYLineAndShapeRenderer(true, false);
         renderer.setBaseToolTipGenerator(toolTipGenerator);
         renderer.setURLGenerator(urlGenerator);
@@ -191,7 +187,7 @@ public class DatasetVisibleDemo extends ApplicationFrame {
         //Plot
         XYPlot plot = new XYPlot(dataset, timeAxis, valueAxis, null);
         plot.setRenderer(renderer);
-        plot.setBackgroundPaint(plotBackgroundPaint);
+        plot.setBackgroundPaint(Color.lightGray);
         plot.setDomainGridlinePaint(Color.white);
         plot.setRangeGridlinePaint(Color.white);
         plot.setAxisOffset(new RectangleInsets(5.0, 5.0, 5.0, 5.0));
@@ -230,7 +226,7 @@ public class DatasetVisibleDemo extends ApplicationFrame {
                 renderer.setSeriesPaint(index, previousPaint);
             } else {
                 previousPaint = renderer.getSeriesPaint(index);
-                renderer.setSeriesPaint(index, plotBackgroundPaint);
+                renderer.setSeriesPaint(index, plot.getBackgroundPaint());
             }
 //            chartPanel.restoreAutoRangeBounds();
         }
