@@ -71,8 +71,6 @@ public class PieDatasetDemo extends ApplicationFrame {
     public PieDatasetDemo(String title) {
         super(title);
         ChartPanel chartPanel = new ChartPanel(pieChart);
-        chartPanel.setHorizontalAxisTrace(true);
-        chartPanel.setVerticalAxisTrace(true);
         chartPanel.setFillZoomRectangle(true);
         chartPanel.setMouseWheelEnabled(true);
         chartPanel.setPreferredSize(new Dimension(500, 270));

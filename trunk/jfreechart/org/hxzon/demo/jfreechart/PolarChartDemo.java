@@ -52,11 +52,10 @@ import org.jfree.chart.ChartPanel;
 import org.jfree.chart.JFreeChart;
 import org.jfree.chart.PolarChartPanel;
 import org.jfree.chart.axis.NumberAxis;
+import org.jfree.chart.axis.NumberTickUnit;
 import org.jfree.chart.plot.PolarPlot;
 import org.jfree.chart.renderer.DefaultPolarItemRenderer;
-import org.jfree.data.time.Month;
-import org.jfree.data.time.TimeSeries;
-import org.jfree.data.time.TimeSeriesCollection;
+import org.jfree.data.xy.DefaultXYDataset;
 import org.jfree.data.xy.XYDataset;
 import org.jfree.ui.ApplicationFrame;
 import org.jfree.ui.RectangleInsets;
@@ -65,15 +64,17 @@ import org.jfree.ui.RefineryUtilities;
 public class PolarChartDemo extends ApplicationFrame {
 
     private static final long serialVersionUID = 1L;
-    private static XYDataset dataset = createDataset();
-    private static JFreeChart polarChart = createPolarChart(dataset);
+    private static XYDataset dataset1 = createDataset1();
+    private static XYDataset dataset2 = createDataset2();
+    private static JFreeChart polarChart1 = createPolarChart(dataset1);
+    private static JFreeChart polarChart2 = createPolarChart(dataset2);
 
     public PolarChartDemo(String title) {
         super(title);
-        PolarChartPanel chartPanel = new PolarChartPanel(polarChart);
+        PolarChartPanel chartPanel = new PolarChartPanel(polarChart1);
         //have a bug after show tooltips
-        chartPanel.setHorizontalAxisTrace(true);
-        chartPanel.setVerticalAxisTrace(true);
+//        chartPanel.setHorizontalAxisTrace(true);
+//        chartPanel.setVerticalAxisTrace(true);
         chartPanel.setFillZoomRectangle(true);
         chartPanel.setMouseWheelEnabled(true);
         chartPanel.setPreferredSize(new Dimension(500, 270));
@@ -81,51 +82,29 @@ public class PolarChartDemo extends ApplicationFrame {
         getContentPane().add(new ChartComboBox(chartPanel), BorderLayout.SOUTH);
     }
 
-    private static XYDataset createDataset() {
+    private static XYDataset createDataset1() {
 
-        TimeSeries s1 = new TimeSeries("L&G European Index Trust");
-        s1.add(new Month(2, 2001), 181.8);
-        s1.add(new Month(3, 2001), 167.3);
-        s1.add(new Month(4, 2001), 153.8);
-        s1.add(new Month(5, 2001), 167.6);
-        s1.add(new Month(6, 2001), 158.8);
-        s1.add(new Month(7, 2001), 148.3);
-        s1.add(new Month(8, 2001), 153.9);
-        s1.add(new Month(9, 2001), 142.7);
-        s1.add(new Month(10, 2001), 123.2);
-        s1.add(new Month(11, 2001), 131.8);
-        s1.add(new Month(12, 2001), 139.6);
-        s1.add(new Month(1, 2002), 142.9);
-        s1.add(new Month(2, 2002), 138.7);
-        s1.add(new Month(3, 2002), 137.3);
-        s1.add(new Month(4, 2002), 143.9);
-        s1.add(new Month(5, 2002), 139.8);
-        s1.add(new Month(6, 2002), 137.0);
-        s1.add(new Month(7, 2002), 132.8);
+        DefaultXYDataset dataset = new DefaultXYDataset();
+        //{{theta1,theta2,theta3, },{radius1,radius2,radius3,}}
+        double[][] series1 = new double[][] { { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17 },
+                { 100, 101, 102, 103, 104, 105, 106, 107, 108, 109, 110, 111, 112, 113, 114, 115, 116, 117 }, };
 
-        TimeSeries s2 = new TimeSeries("L&G UK Index Trust");
-        s2.add(new Month(2, 2001), 129.6);
-        s2.add(new Month(3, 2001), 123.2);
-        s2.add(new Month(4, 2001), 117.2);
-        s2.add(new Month(5, 2001), 124.1);
-        s2.add(new Month(6, 2001), 122.6);
-        s2.add(new Month(7, 2001), 119.2);
-        s2.add(new Month(8, 2001), 116.5);
-        s2.add(new Month(9, 2001), 112.7);
-        s2.add(new Month(10, 2001), 101.5);
-        s2.add(new Month(11, 2001), 106.1);
-        s2.add(new Month(12, 2001), 110.3);
-        s2.add(new Month(1, 2002), 111.7);
-        s2.add(new Month(2, 2002), 111.0);
-        s2.add(new Month(3, 2002), 109.6);
-        s2.add(new Month(4, 2002), 113.2);
-        s2.add(new Month(5, 2002), 111.6);
-        s2.add(new Month(6, 2002), 108.8);
-        s2.add(new Month(7, 2002), 101.6);
+        double[][] series2 = new double[][] { { 0, 10, 20, 30, 40, 50, 60, 70, 80, 90, 100, 110, 120, 130, 140, 150, 160, 170 },
+                { 129.6, 123.2, 117.2, 124.1, 122.6, 119.2, 116.5, 112.7, 101.5, 106.1, 110.3, 111.7, 111.0, 109.6, 113.2, 111.6, 108.8, 101.6 }, };
+        dataset.addSeries("series 1", series1);
+        dataset.addSeries("series 2", series2);
 
-        TimeSeriesCollection dataset = new TimeSeriesCollection();
-        dataset.addSeries(s2);
-        dataset.addSeries(s1);
+        return dataset;
+    }
+
+    private static XYDataset createDataset2() {
+
+        DefaultXYDataset dataset = new DefaultXYDataset();
+        //{{theta1,theta2,theta3, },{radius1,radius2,radius3,}}
+        double[][] series1 = new double[][] { { 0, 5, 10, 15, 20, 25, 30, 35, 40, 45, 50, 55, 60, 65, 70, 75, 80, 85 },
+                { 100, 110, 120, 130, 140, 150, 160, 170, 180, 190, 200, 210, 220, 230, 240, 250, 260, 270 }, };
+
+        dataset.addSeries("series 1", series1);
 
         return dataset;
     }
@@ -145,6 +124,10 @@ public class PolarChartDemo extends ApplicationFrame {
 
         plot.setBackgroundPaint(Color.lightGray);
 
+        plot.setAngleGridlinesVisible(true);
+        plot.setAngleLabelsVisible(true);
+        plot.setAngleTickUnit(new NumberTickUnit(5));
+
         return chart;
     }
 
@@ -154,7 +137,8 @@ public class PolarChartDemo extends ApplicationFrame {
 
         public ChartComboBox(ChartPanel chartPanel) {
             this.chartPanel = chartPanel;
-            super.addItem(new HEasyJModelValue<JFreeChart>(polarChart, "PolarChart", false));
+            super.addItem(new HEasyJModelValue<JFreeChart>(polarChart1, "PolarChart1", false));
+            super.addItem(new HEasyJModelValue<JFreeChart>(polarChart2, "PolarChart2", false));
             this.addItemListener(this);
         }
 
