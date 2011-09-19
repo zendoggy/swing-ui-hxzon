@@ -57,7 +57,6 @@ import org.jfree.chart.ChartPanel;
 import org.jfree.chart.JFreeChart;
 import org.jfree.chart.axis.DateAxis;
 import org.jfree.chart.axis.NumberAxis;
-import org.jfree.chart.event.RendererChangeEvent;
 import org.jfree.chart.labels.StandardXYToolTipGenerator;
 import org.jfree.chart.labels.XYToolTipGenerator;
 import org.jfree.chart.plot.XYPlot;
@@ -73,11 +72,11 @@ import org.jfree.ui.RefineryUtilities;
 
 public class DatasetVisibleDemo2 extends ApplicationFrame {
 
+    private static final long serialVersionUID = 1L;
     private static final String series1Name = "series 1";
     private static final String series2Name = "series 2";
     private static final String series3Name = "series 3";
     private static final Paint plotBackgroundPaint = Color.lightGray;
-    private static final long serialVersionUID = 1L;
     private static XYDataset dataset = createDataset();
     private static JFreeChart timeSeriesChart = createTimeSeriesChart(dataset);
 
@@ -223,6 +222,7 @@ public class DatasetVisibleDemo2 extends ApplicationFrame {
     public static class ChartCheckBox extends HEasyJCheckBox<String> implements ItemListener {
         private static final long serialVersionUID = 1L;
         private String name;
+        @SuppressWarnings("unused")
         private ChartPanel chartPanel;
 
         public ChartCheckBox(String name, ChartPanel chartPanel) {
