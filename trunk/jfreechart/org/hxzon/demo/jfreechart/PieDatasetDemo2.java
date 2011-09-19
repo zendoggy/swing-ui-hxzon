@@ -42,23 +42,37 @@
 package org.hxzon.demo.jfreechart;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.Font;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
+import java.text.NumberFormat;
+import java.util.List;
 
 import org.hxzon.swing.components.easy.HEasyJComboBox;
 import org.hxzon.swing.model.HEasyJModelValue;
-import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartPanel;
 import org.jfree.chart.JFreeChart;
+import org.jfree.chart.labels.StandardPieSectionLabelGenerator;
+import org.jfree.chart.labels.StandardPieToolTipGenerator;
 import org.jfree.chart.plot.PiePlot;
+import org.jfree.chart.plot.PiePlot3D;
+import org.jfree.chart.plot.RingPlot;
+import org.jfree.chart.title.TextTitle;
+import org.jfree.chart.urls.StandardPieURLGenerator;
 import org.jfree.data.general.DefaultPieDataset;
 import org.jfree.data.general.PieDataset;
 import org.jfree.ui.ApplicationFrame;
+import org.jfree.ui.RectangleInsets;
 import org.jfree.ui.RefineryUtilities;
 
-public class PieDatasetDemo extends ApplicationFrame {
+public class PieDatasetDemo2 extends ApplicationFrame {
     private static final long serialVersionUID = 1L;
+    //
+    private static boolean tooltips = true;
+    private static boolean urls = true;
+    private static boolean legend = true;
     //dataset
     private static PieDataset dataset = createDataset();
     private static PieDataset previousDataset = createPreviousDataset();
@@ -68,7 +82,7 @@ public class PieDatasetDemo extends ApplicationFrame {
     private static JFreeChart pieChart3D = createPieChart3D(dataset);
     private static JFreeChart pieChart_2 = createPieChart(dataset, previousDataset);
 
-    public PieDatasetDemo(String title) {
+    public PieDatasetDemo2(String title) {
         super(title);
         ChartPanel chartPanel = new ChartPanel(pieChart);
         chartPanel.setHorizontalAxisTrace(true);
@@ -104,12 +118,16 @@ public class PieDatasetDemo extends ApplicationFrame {
 
     private static JFreeChart createPieChart(PieDataset dataset) {
 
-        JFreeChart chart = ChartFactory.createPieChart("Pie Chart Demo 1", // chart title
-                dataset, // data
-                true, // include legend
-                true, false);
-
-        PiePlot plot = (PiePlot) chart.getPlot();
+        PiePlot plot = new PiePlot(dataset);
+        plot.setLabelGenerator(new StandardPieSectionLabelGenerator());
+        plot.setInsets(new RectangleInsets(0.0, 5.0, 5.0, 5.0));
+        if (tooltips) {
+            plot.setToolTipGenerator(new StandardPieToolTipGenerator());
+        }
+        if (urls) {
+            plot.setURLGenerator(new StandardPieURLGenerator());
+        }
+        JFreeChart chart = new JFreeChart("Pie Chart Demo 1", JFreeChart.DEFAULT_TITLE_FONT, plot, legend);
         plot.setSectionOutlinesVisible(false);
         plot.setNoDataMessage("No data available");
 
@@ -118,27 +136,69 @@ public class PieDatasetDemo extends ApplicationFrame {
     }
 
     private static JFreeChart createPieChart(PieDataset dataset, PieDataset previousDataset) {
-//        createPieChart(String title,
-//                PieDataset dataset,
-//                PieDataset previousDataset,
-//                int percentDiffForMaxScale,
-//                boolean greenForIncrease,
-//                boolean legend,
-//                boolean tooltips,
-//                boolean urls,
-//                boolean subTitle,
-//                boolean showDifference)
-        JFreeChart chart = ChartFactory.createPieChart("Pie Chart Demo 2", // chart title
-                dataset, // data
-                previousDataset, 0,// percentDiffForMaxScale
-                true, // greenForIncrease
-                true, // include legend
-                true, // tooltips
-                false, // urls
-                true, // subTitle
-                true); // showDifference
+        boolean greenForIncrease = true;
+        boolean subTitle = true;
+        boolean showDifference = true;
+        int percentDiffForMaxScale = 0;
+        PiePlot plot = new PiePlot(dataset);
+        plot.setLabelGenerator(new StandardPieSectionLabelGenerator());
+        plot.setInsets(new RectangleInsets(0.0, 5.0, 5.0, 5.0));
 
-        PiePlot plot = (PiePlot) chart.getPlot();
+        if (tooltips) {
+            plot.setToolTipGenerator(new StandardPieToolTipGenerator());
+        }
+        if (urls) {
+            plot.setURLGenerator(new StandardPieURLGenerator());
+        }
+
+        @SuppressWarnings({ "rawtypes", "unchecked" })
+        List<Comparable> keys = dataset.getKeys();
+        DefaultPieDataset series = null;
+        if (showDifference) {
+            series = new DefaultPieDataset();
+        }
+
+        double colorPerPercent = 255.0 / percentDiffForMaxScale;
+        for (@SuppressWarnings("rawtypes")
+        Comparable key : keys) {
+            Number newValue = dataset.getValue(key);
+            Number oldValue = previousDataset.getValue(key);
+
+            if (oldValue == null) {
+                if (greenForIncrease) {
+                    plot.setSectionPaint(key, Color.green);
+                } else {
+                    plot.setSectionPaint(key, Color.red);
+                }
+                if (showDifference) {
+                    series.setValue(key + " (+100%)", newValue);
+                }
+            } else {
+                double percentChange = (newValue.doubleValue() / oldValue.doubleValue() - 1.0) * 100.0;
+                double shade = (Math.abs(percentChange) >= percentDiffForMaxScale ? 255 : Math.abs(percentChange) * colorPerPercent);
+                if (greenForIncrease && newValue.doubleValue() > oldValue.doubleValue() || !greenForIncrease && newValue.doubleValue() < oldValue.doubleValue()) {
+                    plot.setSectionPaint(key, new Color(0, (int) shade, 0));
+                } else {
+                    plot.setSectionPaint(key, new Color((int) shade, 0, 0));
+                }
+                if (showDifference) {
+                    series.setValue(key + " (" + (percentChange >= 0 ? "+" : "") + NumberFormat.getPercentInstance().format(percentChange / 100.0) + ")", newValue);
+                }
+            }
+        }
+
+        if (showDifference) {
+            plot.setDataset(series);
+        }
+
+        JFreeChart chart = new JFreeChart("Pie Chart Demo 2", JFreeChart.DEFAULT_TITLE_FONT, plot, legend);
+
+        if (subTitle) {
+            TextTitle subtitle = null;
+            subtitle = new TextTitle("Bright " + (greenForIncrease ? "red" : "green") + "=change >=-" + percentDiffForMaxScale + "%, Bright " + (!greenForIncrease ? "red" : "green") + "=change >=+"
+                    + percentDiffForMaxScale + "%", new Font("SansSerif", Font.PLAIN, 10));
+            chart.addSubtitle(subtitle);
+        }
         plot.setNoDataMessage("No data available");
 
         return chart;
@@ -147,12 +207,15 @@ public class PieDatasetDemo extends ApplicationFrame {
 
     private static JFreeChart createPieChart3D(PieDataset dataset) {
 
-        JFreeChart chart = ChartFactory.createPieChart3D("Pie Chart 3D Demo 1", // chart title
-                dataset, // data
-                true, // include legend
-                true, false);
-
-        PiePlot plot = (PiePlot) chart.getPlot();
+        PiePlot3D plot = new PiePlot3D(dataset);
+        plot.setInsets(new RectangleInsets(0.0, 5.0, 5.0, 5.0));
+        if (tooltips) {
+            plot.setToolTipGenerator(new StandardPieToolTipGenerator());
+        }
+        if (urls) {
+            plot.setURLGenerator(new StandardPieURLGenerator());
+        }
+        JFreeChart chart = new JFreeChart("Pie Chart 3D Demo 1", JFreeChart.DEFAULT_TITLE_FONT, plot, legend);
         plot.setSectionOutlinesVisible(false);
         plot.setNoDataMessage("No data available");
 
@@ -162,12 +225,16 @@ public class PieDatasetDemo extends ApplicationFrame {
 
     private static JFreeChart createRingChart(PieDataset dataset) {
 
-        JFreeChart chart = ChartFactory.createRingChart("Ring Chart Demo 1", // chart title
-                dataset, // data
-                true, // include legend
-                true, false);
-
-        PiePlot plot = (PiePlot) chart.getPlot();
+        RingPlot plot = new RingPlot(dataset);
+        plot.setLabelGenerator(new StandardPieSectionLabelGenerator());
+        plot.setInsets(new RectangleInsets(0.0, 5.0, 5.0, 5.0));
+        if (tooltips) {
+            plot.setToolTipGenerator(new StandardPieToolTipGenerator());
+        }
+        if (urls) {
+            plot.setURLGenerator(new StandardPieURLGenerator());
+        }
+        JFreeChart chart = new JFreeChart("Ring Chart Demo 1", JFreeChart.DEFAULT_TITLE_FONT, plot, legend);
         plot.setSectionOutlinesVisible(false);
         plot.setNoDataMessage("No data available");
 
@@ -201,7 +268,7 @@ public class PieDatasetDemo extends ApplicationFrame {
 
     public static void main(String[] args) {
 
-        PieDatasetDemo demo = new PieDatasetDemo("Pie Dataset Chart Demo");
+        PieDatasetDemo2 demo = new PieDatasetDemo2("Pie Dataset Chart Demo");
         demo.pack();
         RefineryUtilities.centerFrameOnScreen(demo);
         demo.setVisible(true);

@@ -105,9 +105,9 @@ public class CategoryDatasetDemo extends ApplicationFrame {
     private static CategoryDataset createDataset() {
 
         // row keys...
-        String series1 = "First";
-        String series2 = "Second";
-        String series3 = "Third";
+        String series1 = "Series 1";
+        String series2 = "Series 2";
+        String series3 = "Series 3";
 
         // column keys...
         String category1 = "Category 1";
@@ -409,7 +409,7 @@ public class CategoryDatasetDemo extends ApplicationFrame {
         rangeAxis.setStandardTickUnits(NumberAxis.createIntegerTickUnits());
 
         StackedAreaRenderer renderer = (StackedAreaRenderer) plot.getRenderer();
-        renderer.setRenderAsPercentages(true);
+//        renderer.setRenderAsPercentages(true);
 
         // set up gradient paints for series...
         GradientPaint gp0 = new GradientPaint(0.0f, 0.0f, Color.blue, 0.0f, 0.0f, new Color(0, 0, 64));

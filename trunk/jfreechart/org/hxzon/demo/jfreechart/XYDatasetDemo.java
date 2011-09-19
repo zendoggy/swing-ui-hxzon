@@ -201,7 +201,7 @@ public class XYDatasetDemo extends ApplicationFrame {
         plot.setRangeCrosshairVisible(true);
 
         NumberAxis domainAxis = (NumberAxis) plot.getDomainAxis();
-        domainAxis.setNumberFormatOverride(new MyNumberFormat());
+        domainAxis.setNumberFormatOverride(MyNumberFormat.getMyNumberFormat());
 
         return chart;
 
@@ -229,7 +229,7 @@ public class XYDatasetDemo extends ApplicationFrame {
         plot.setRangeCrosshairVisible(true);
 
         NumberAxis domainAxis = (NumberAxis) plot.getDomainAxis();
-        domainAxis.setNumberFormatOverride(new MyNumberFormat());
+        domainAxis.setNumberFormatOverride(MyNumberFormat.getMyNumberFormat());
 
         return chart;
     }
@@ -256,7 +256,7 @@ public class XYDatasetDemo extends ApplicationFrame {
         plot.setRangeCrosshairVisible(true);
 
         NumberAxis domainAxis = (NumberAxis) plot.getDomainAxis();
-        domainAxis.setNumberFormatOverride(new MyNumberFormat());
+        domainAxis.setNumberFormatOverride(MyNumberFormat.getMyNumberFormat());
 
         return chart;
     }
@@ -328,11 +328,6 @@ public class XYDatasetDemo extends ApplicationFrame {
 
         PolarPlot plot = (PolarPlot) chart.getPlot();
         plot.setBackgroundPaint(Color.lightGray);
-        //        plot.setDomainGridlinePaint(Color.white);
-        //        plot.setRangeGridlinePaint(Color.white);
-        //        plot.setAxisOffset(new RectangleInsets(5.0, 5.0, 5.0, 5.0));
-        //        plot.setDomainCrosshairVisible(true);
-        //        plot.setRangeCrosshairVisible(true);
 
         return chart;
     }
