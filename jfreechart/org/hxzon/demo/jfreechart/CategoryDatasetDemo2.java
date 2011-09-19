@@ -111,6 +111,7 @@ public class CategoryDatasetDemo2 extends ApplicationFrame {
     private static boolean legend = true;
     //
     private static CategoryDataset dataset = createDataset();
+    private static CategoryDataset waterfallDataset = createWaterfallDataset();
     private static JFreeChart barChart = createBarChart(dataset);
     private static JFreeChart barChart3D = createBarChart3D(dataset);
     private static JFreeChart stackedBarChart = createStackedBarChart(dataset);
@@ -119,16 +120,17 @@ public class CategoryDatasetDemo2 extends ApplicationFrame {
     private static JFreeChart lineChart3D = createLineChart3D(dataset);
     private static JFreeChart areaChart = createAreaChart(dataset);
     private static JFreeChart stackedAreaChart = createStackedAreaChart(dataset);
-    private static JFreeChart waterfallChart = createWaterfallChart(dataset);
     private static JFreeChart ganttChart = createGanttChart(dataset);
+    private static JFreeChart waterfallChart = createWaterfallChart(waterfallDataset);
     private static JFreeChart multiplePieChart3D = createMultiplePieChart3D(dataset);
     private static JFreeChart multiplePieChart3D_2 = createMultiplePieChart3D_2(dataset);
+
     public CategoryDatasetDemo2(String title) {
         super(title);
         ChartPanel chartPanel = new ChartPanel(barChart);
         //have a bug after show tooltips
-        chartPanel.setHorizontalAxisTrace(true);
-        chartPanel.setVerticalAxisTrace(true);
+//        chartPanel.setHorizontalAxisTrace(true);
+//        chartPanel.setVerticalAxisTrace(true);
         chartPanel.setFillZoomRectangle(true);
         chartPanel.setMouseWheelEnabled(true);
         chartPanel.setPreferredSize(new Dimension(500, 270));
@@ -175,6 +177,43 @@ public class CategoryDatasetDemo2 extends ApplicationFrame {
 
     }
 
+    private static CategoryDataset createWaterfallDataset() {
+
+        // row keys...
+        String series1 = "Series 1";
+
+        // column keys...
+        String category1 = "Category 1";
+        String category2 = "Category 2";
+        String category3 = "Category 3";
+        String category4 = "Category 4";
+        String category5 = "sum of the items in the preceding categories";
+
+        // create the dataset...
+        DefaultCategoryDataset dataset = new DefaultCategoryDataset();
+
+//        dataset.addValue(1.0, series1, category1);
+//        dataset.addValue(4.0, series1, category2);
+//        dataset.addValue(3.0, series1, category3);
+//        dataset.addValue(5.0, series1, category4);
+//        dataset.addValue(13.0, series1, category5);
+
+        dataset.addValue(5.0, series1, category1);
+        dataset.addValue(7.0, series1, category2);
+        dataset.addValue(-6.0, series1, category3);
+        dataset.addValue(8.0, series1, category4);
+        dataset.addValue(14.0, series1, category5);
+
+//        dataset.addValue(4.0, series1, category1);
+//        dataset.addValue(3.0, series1, category2);
+//        dataset.addValue(2.0, series1, category3);
+//        dataset.addValue(-3.0, series1, category4);
+//        dataset.addValue(6.0, series1, category5);
+
+        return dataset;
+
+    }
+
     private static JFreeChart createBarChart(CategoryDataset dataset) {
 
         CategoryAxis categoryAxis = new CategoryAxis(categoryAxisLabel);
@@ -214,6 +253,9 @@ public class CategoryDatasetDemo2 extends ApplicationFrame {
         renderer.setSeriesPaint(0, gp0);
         renderer.setSeriesPaint(1, gp1);
         renderer.setSeriesPaint(2, gp2);
+
+        plot.setDomainCrosshairVisible(true);
+        plot.setRangeCrosshairVisible(true);
 
         categoryAxis.setCategoryLabelPositions(CategoryLabelPositions.createUpRotationLabelPositions(Math.PI / 6.0));
 
@@ -258,6 +300,9 @@ public class CategoryDatasetDemo2 extends ApplicationFrame {
         renderer.setSeriesPaint(1, gp1);
         renderer.setSeriesPaint(2, gp2);
 
+        plot.setDomainCrosshairVisible(true);
+        plot.setRangeCrosshairVisible(true);
+
         return chart;
 
     }
@@ -290,6 +335,9 @@ public class CategoryDatasetDemo2 extends ApplicationFrame {
         renderer.setSeriesPaint(0, gp0);
         renderer.setSeriesPaint(1, gp1);
         renderer.setSeriesPaint(2, gp2);
+
+        plot.setDomainCrosshairVisible(true);
+        plot.setRangeCrosshairVisible(true);
 
         return chart;
 
@@ -329,6 +377,9 @@ public class CategoryDatasetDemo2 extends ApplicationFrame {
         renderer.setSeriesPaint(1, gp1);
         renderer.setSeriesPaint(2, gp2);
 
+        plot.setDomainCrosshairVisible(true);
+        plot.setRangeCrosshairVisible(true);
+
         return chart;
 
     }
@@ -360,6 +411,9 @@ public class CategoryDatasetDemo2 extends ApplicationFrame {
         renderer.setSeriesPaint(0, gp0);
         renderer.setSeriesPaint(1, gp1);
         renderer.setSeriesPaint(2, gp2);
+
+        plot.setDomainCrosshairVisible(true);
+        plot.setRangeCrosshairVisible(true);
 
         return chart;
 
@@ -394,6 +448,9 @@ public class CategoryDatasetDemo2 extends ApplicationFrame {
         GradientPaint gp = new GradientPaint(0.0f, 0.0f, Color.orange, 0.0f, 0.0f, new Color(0, 64, 64));
         renderer.setWallPaint(gp);
 
+        plot.setDomainCrosshairVisible(true);
+        plot.setRangeCrosshairVisible(true);
+
         return chart;
 
     }
@@ -426,6 +483,9 @@ public class CategoryDatasetDemo2 extends ApplicationFrame {
         renderer.setSeriesPaint(0, gp0);
         renderer.setSeriesPaint(1, gp1);
         renderer.setSeriesPaint(2, gp2);
+
+        plot.setDomainCrosshairVisible(true);
+        plot.setRangeCrosshairVisible(true);
 
         return chart;
 
@@ -461,6 +521,9 @@ public class CategoryDatasetDemo2 extends ApplicationFrame {
         renderer.setSeriesPaint(1, gp1);
         renderer.setSeriesPaint(2, gp2);
 
+        plot.setDomainCrosshairVisible(true);
+        plot.setRangeCrosshairVisible(true);
+
         return chart;
 
     }
@@ -489,6 +552,9 @@ public class CategoryDatasetDemo2 extends ApplicationFrame {
         renderer.setSeriesPaint(0, gp0);
         renderer.setSeriesPaint(1, gp1);
         renderer.setSeriesPaint(2, gp2);
+
+        plot.setDomainCrosshairVisible(true);
+        plot.setRangeCrosshairVisible(true);
 
         return chart;
 
@@ -533,7 +599,8 @@ public class CategoryDatasetDemo2 extends ApplicationFrame {
         GradientPaint gp0 = new GradientPaint(0.0f, 0.0f, Color.blue, 0.0f, 0.0f, new Color(0, 0, 64));
 //        GradientPaint gp1 = new GradientPaint(0.0f, 0.0f, Color.green, 0.0f, 0.0f, new Color(0, 64, 0));
         GradientPaint gp2 = new GradientPaint(0.0f, 0.0f, Color.red, 0.0f, 0.0f, new Color(64, 0, 0));
-//        renderer.setSeriesPaint(0, gp0);
+//        AbstractRenderer#setSeriesPaint(int, Paint) are ignored;
+        //        renderer.setSeriesPaint(0, gp0);
 //        renderer.setSeriesPaint(1, gp1);
 //        renderer.setSeriesPaint(2, gp2);
 
@@ -542,6 +609,9 @@ public class CategoryDatasetDemo2 extends ApplicationFrame {
         renderer.setLastBarPaint(gp2);
         renderer.setPositiveBarPaint(Color.orange);
         renderer.setNegativeBarPaint(Color.cyan);
+
+        plot.setDomainCrosshairVisible(true);
+        plot.setRangeCrosshairVisible(true);
 
         return chart;
 
@@ -638,8 +708,8 @@ public class CategoryDatasetDemo2 extends ApplicationFrame {
             super.addItem(new HEasyJModelValue<JFreeChart>(lineChart3D, "LineChart3D", false));
             super.addItem(new HEasyJModelValue<JFreeChart>(areaChart, "AreaChart", false));
             super.addItem(new HEasyJModelValue<JFreeChart>(stackedAreaChart, "StackedAreaChart", false));
-            super.addItem(new HEasyJModelValue<JFreeChart>(waterfallChart, "WaterfallChart", false));
             super.addItem(new HEasyJModelValue<JFreeChart>(ganttChart, "GanttChart", false));
+            super.addItem(new HEasyJModelValue<JFreeChart>(waterfallChart, "WaterfallChart", false));
             super.addItem(new HEasyJModelValue<JFreeChart>(multiplePieChart3D, "multiplePieChart3D", false));
             super.addItem(new HEasyJModelValue<JFreeChart>(multiplePieChart3D_2, "multiplePieChart3D_2", false));
             this.addItemListener(this);

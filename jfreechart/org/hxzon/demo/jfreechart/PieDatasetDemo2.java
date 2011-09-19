@@ -85,8 +85,6 @@ public class PieDatasetDemo2 extends ApplicationFrame {
     public PieDatasetDemo2(String title) {
         super(title);
         ChartPanel chartPanel = new ChartPanel(pieChart);
-        chartPanel.setHorizontalAxisTrace(true);
-        chartPanel.setVerticalAxisTrace(true);
         chartPanel.setFillZoomRectangle(true);
         chartPanel.setMouseWheelEnabled(true);
         chartPanel.setPreferredSize(new Dimension(500, 270));
@@ -136,10 +134,10 @@ public class PieDatasetDemo2 extends ApplicationFrame {
     }
 
     private static JFreeChart createPieChart(PieDataset dataset, PieDataset previousDataset) {
-        boolean greenForIncrease = true;
-        boolean subTitle = true;
-        boolean showDifference = true;
-        int percentDiffForMaxScale = 0;
+        final boolean greenForIncrease = true;
+        final boolean subTitle = true;
+        final boolean showDifference = true;
+        int percentDiffForMaxScale = 20;
         PiePlot plot = new PiePlot(dataset);
         plot.setLabelGenerator(new StandardPieSectionLabelGenerator());
         plot.setInsets(new RectangleInsets(0.0, 5.0, 5.0, 5.0));

@@ -107,8 +107,8 @@ public class XYDatasetDemo2 extends ApplicationFrame {
         super(title);
         ChartPanel chartPanel = new ChartPanel(timeSeriesChart);
         //have a bug after show tooltips
-        chartPanel.setHorizontalAxisTrace(true);
-        chartPanel.setVerticalAxisTrace(true);
+//        chartPanel.setHorizontalAxisTrace(true);
+//        chartPanel.setVerticalAxisTrace(true);
         chartPanel.setFillZoomRectangle(true);
         chartPanel.setMouseWheelEnabled(true);
         chartPanel.setPreferredSize(new Dimension(500, 270));
