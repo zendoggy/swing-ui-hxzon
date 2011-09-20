@@ -46,6 +46,7 @@ import java.awt.Dimension;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -88,10 +89,10 @@ import org.jfree.data.statistics.BoxAndWhiskerItem;
 import org.jfree.data.statistics.BoxAndWhiskerXYDataset;
 import org.jfree.data.statistics.DefaultBoxAndWhiskerCategoryDataset;
 import org.jfree.data.statistics.DefaultBoxAndWhiskerXYDataset;
+import org.jfree.data.time.Day;
+import org.jfree.data.time.TimeTableXYDataset;
 import org.jfree.data.xy.DefaultOHLCDataset;
-import org.jfree.data.xy.DefaultTableXYDataset;
 import org.jfree.data.xy.DefaultWindDataset;
-import org.jfree.data.xy.DefaultXYDataset;
 import org.jfree.data.xy.DefaultXYZDataset;
 import org.jfree.data.xy.OHLCDataItem;
 import org.jfree.data.xy.OHLCDataset;
@@ -99,6 +100,7 @@ import org.jfree.data.xy.TableXYDataset;
 import org.jfree.data.xy.WindDataset;
 import org.jfree.data.xy.XYDataset;
 import org.jfree.data.xy.XYSeries;
+import org.jfree.data.xy.XYSeriesCollection;
 import org.jfree.data.xy.XYZDataset;
 import org.jfree.ui.ApplicationFrame;
 import org.jfree.ui.RectangleInsets;
@@ -149,31 +151,77 @@ public class OtherDatasetDemo extends ApplicationFrame {
     }
 
     private static XYZDataset createXYZDataset() {
+//        DefaultXYZDataset dataset = new DefaultXYZDataset();
+//        //x1,x2,x3,y1,y2,y3,z1,z2,z3=>x1,x2,x3,y1,y2,y3,r1,r2,r3
+//        double[][] s1 = new double[][] { { 1, 2, 3 }, { 3, 4, 5 }, { 2, 2, 4 } };
+//        dataset.addSeries("series 1", s1);
+//        double[][] s2 = new double[][] { { 11, 12 }, { 13, 14 }, { 3, 3 } };
+//        dataset.addSeries("series 2", s2);
+//        return dataset;
         DefaultXYZDataset dataset = new DefaultXYZDataset();
-        //x1,x2,x3,y1,y2,y3,z1,z2,z3=>x1,x2,x3,y1,y2,y3,r1,r2,r3
-        double[][] s1 = new double[][] { { 1, 2, 3 }, { 3, 4, 5 }, { 2, 2, 4 } };
-        dataset.addSeries("series 1", s1);
-        double[][] s2 = new double[][] { { 11, 12 }, { 13, 14 }, { 3, 3 } };
-        dataset.addSeries("series 2", s2);
+        double ad[] = { 2.1000000000000001D, 2.2999999999999998D, 2.2999999999999998D, 2.2000000000000002D, 2.2000000000000002D, 1.8D, 1.8D, 1.8999999999999999D, 2.2999999999999998D,
+                3.7999999999999998D };
+        double ad1[] = { 14.1D, 11.1D, 10D, 8.8000000000000007D, 8.6999999999999993D, 8.4000000000000004D, 5.4000000000000004D, 4.0999999999999996D, 4.0999999999999996D, 25D };
+        double ad2[] = { 2.3999999999999999D, 2.7000000000000002D, 2.7000000000000002D, 2.2000000000000002D, 2.2000000000000002D, 2.2000000000000002D, 2.1000000000000001D, 2.2000000000000002D,
+                1.6000000000000001D, 4D };
+        double ad3[][] = { ad, ad1, ad2 };
+        dataset.addSeries("Series 1", ad3);
         return dataset;
     }
 
     private static TableXYDataset createTableXYDataset() {
-        boolean notify = false;
-        DefaultTableXYDataset dataset = new DefaultTableXYDataset();
-//        XYSeries(Comparable key, boolean autoSort,
-//                boolean allowDuplicateXValues)
-        XYSeries series1 = new XYSeries("series 1", false, false);
-        series1.add(1, 1, notify);
-        series1.add(2, 2, notify);
-        series1.add(3, 3, notify);
-        dataset.addSeries(series1);
-        XYSeries series2 = new XYSeries("series 2", false, false);
-        series2.add(11, 1, notify);
-        series2.add(12, 2, notify);
-        series2.add(13, 3, notify);
-        dataset.addSeries(series2);
-        return dataset;
+        //DefaultTableXYDataset
+//        boolean notify = false;
+//        boolean autoSort = true;//must autoSort?
+//        DefaultTableXYDataset dataset = new DefaultTableXYDataset();
+////        XYSeries(Comparable key, boolean autoSort,
+////                boolean allowDuplicateXValues)
+//        XYSeries series1 = new XYSeries("series 1", autoSort, false);
+//        series1.add(1, 1, notify);
+//        series1.add(2, 2, notify);
+//        series1.add(3, 3, notify);
+//        dataset.addSeries(series1);
+//        XYSeries series2 = new XYSeries("series 2", autoSort, false);
+//        series2.add(12, 1, notify);
+//        series2.add(13, 2, notify);
+//        series2.add(14, 3, notify);
+//        dataset.addSeries(series2);
+//        return dataset;
+        //CategoryTableXYDataset
+//        CategoryTableXYDataset categorytablexydataset = new CategoryTableXYDataset();
+//        categorytablexydataset.add(0.0D, 0.0D, "Series 1");
+//        categorytablexydataset.add(10D, 20D, "Series 1");
+//        categorytablexydataset.add(20D, 15D, "Series 1");
+//        categorytablexydataset.add(30D, 25D, "Series 1");
+//        categorytablexydataset.add(40D, 21D, "Series 1");
+//        categorytablexydataset.add(10D, 9D, "Series 2");
+//        categorytablexydataset.add(20D, -7D, "Series 2");
+//        categorytablexydataset.add(30D, 15D, "Series 2");
+//        categorytablexydataset.add(40D, 11D, "Series 2");
+//        categorytablexydataset.add(45D, -10D, "Series 2");
+//        categorytablexydataset.add(50D, 0.0D, "Series 2");
+//        return categorytablexydataset;
+        //TimeTableXYDataset
+        TimeTableXYDataset timetablexydataset = new TimeTableXYDataset();
+        timetablexydataset.add(new Day(14, 2, 2007), 87D, "Series 1");
+        timetablexydataset.add(new Day(15, 2, 2007), 67D, "Series 1");
+        timetablexydataset.add(new Day(16, 2, 2007), 78D, "Series 1");
+        timetablexydataset.add(new Day(17, 2, 2007), 55D, "Series 1");
+        timetablexydataset.add(new Day(18, 2, 2007), 58D, "Series 1");
+        timetablexydataset.add(new Day(19, 2, 2007), 60D, "Series 1");
+        timetablexydataset.add(new Day(14, 2, 2007), 45D, "Series 2");
+        timetablexydataset.add(new Day(15, 2, 2007), 67D, "Series 2");
+        timetablexydataset.add(new Day(16, 2, 2007), 61D, "Series 2");
+        timetablexydataset.add(new Day(17, 2, 2007), 58D, "Series 2");
+        timetablexydataset.add(new Day(18, 2, 2007), 73D, "Series 2");
+        timetablexydataset.add(new Day(19, 2, 2007), 64D, "Series 2");
+        timetablexydataset.add(new Day(14, 2, 2007), 32D, "Series 3");
+        timetablexydataset.add(new Day(15, 2, 2007), 38D, "Series 3");
+        timetablexydataset.add(new Day(16, 2, 2007), 43D, "Series 3");
+        timetablexydataset.add(new Day(17, 2, 2007), 12D, "Series 3");
+        timetablexydataset.add(new Day(18, 2, 2007), 19D, "Series 3");
+        timetablexydataset.add(new Day(19, 2, 2007), 26D, "Series 3");
+        return timetablexydataset;
     }
 
     private static OHLCDataset createOpenHighLowCloseDataset() {
@@ -184,12 +232,20 @@ public class OtherDatasetDemo extends ApplicationFrame {
 //                double low,
 //                double close,
 //                double volume)
-        long time = new Date().getTime();
-        data[0] = new OHLCDataItem(new Date(time + 10000), 20, 20, 0, 0, 5);
-        data[1] = new OHLCDataItem(new Date(time + 30000), 22, 22, 2, 2, 5);
-        data[2] = new OHLCDataItem(new Date(time + 60000), 25, 20, 3, 0, 5);
+        data[0] = new OHLCDataItem(new Date(millisForDate(1, 1, 2009)), 20, 20, 0, 0, 5);
+        data[1] = new OHLCDataItem(new Date(millisForDate(2, 1, 2009)), 22, 22, 2, 2, 5);
+        data[2] = new OHLCDataItem(new Date(millisForDate(3, 1, 2009)), 25, 20, 3, 0, 5);
         DefaultOHLCDataset dataset = new DefaultOHLCDataset("data", data);
         return dataset;
+    }
+
+    private static List<Double> createValueList(double lowerBound, double upperBound, int count) {
+        List<Double> result = new ArrayList<Double>();
+        for (int i = 0; i < count; i++) {
+            double v = lowerBound + (Math.random() * (upperBound - lowerBound));
+            result.add(new Double(v));
+        }
+        return result;
     }
 
     private static BoxAndWhiskerCategoryDataset createBoxAndWhiskerCategoryDataset() {
@@ -224,20 +280,34 @@ public class OtherDatasetDemo extends ApplicationFrame {
         return dataset;
     }
 
-    private static WindDataset createWindDataset() {
-        String[] seriesNames = new String[] { "series 1", "series 2", "series 3" };
-        //xNumber, windDir,windForce
-//        the wind direction .  This is a
-//        number between 0 and 12, like the numbers on an upside-down clock face.
-//        the wind force for one item within a series.  This is a number
-//        between 0 and 12, as defined by the Beaufort scale.
-        long time = new Date().getTime();
-        Object[][] series1 = new Object[][] { { time + 1000, 2, 3 }, { time + 2000, 4, 9 }, { time + 3000, 6, 6 } };
-        Object[][] series2 = new Object[][] { { time + 4000, 12, 12 }, { time + 5000, 0, 3 }, { time + 6000, 8, 11 } };
-        Object[][] series3 = new Object[][] { { time + 7000, 6, 8 }, { time + 8000, 9, 1 }, { time + 9000, 8, 3 } };
-        Object[][][] data = new Object[][][] { series1, series2, series3 };
-        DefaultWindDataset dataset = new DefaultWindDataset(seriesNames, data);
-        return dataset;
+    private static long millisForDate(int date, int month, int year) {
+        Calendar calendar = Calendar.getInstance();
+        calendar.set(year, month - 1, date, 12, 0);
+        return calendar.getTimeInMillis();
+    }
+
+    private static Object[] createItem(long l, int i, int j) {
+        return (new Object[] { new Date(l), new Integer(i), new Integer(j) });
+    }
+
+    public static WindDataset createWindDataset() {
+        Object aobj[] = createItem(millisForDate(3, 1, 1999), 0, 10);
+        Object aobj1[] = createItem(millisForDate(4, 1, 1999), 1, 8);
+        Object aobj2[] = createItem(millisForDate(5, 1, 1999), 2, 10);
+        Object aobj3[] = createItem(millisForDate(6, 1, 1999), 3, 10);
+        Object aobj4[] = createItem(millisForDate(7, 1, 1999), 4, 7);
+        Object aobj5[] = createItem(millisForDate(8, 1, 1999), 5, 10);
+        Object aobj6[] = createItem(millisForDate(9, 1, 1999), 6, 8);
+        Object aobj7[] = createItem(millisForDate(10, 1, 1999), 7, 11);
+        Object aobj8[] = createItem(millisForDate(11, 1, 1999), 8, 10);
+        Object aobj9[] = createItem(millisForDate(12, 1, 1999), 9, 11);
+        Object aobj10[] = createItem(millisForDate(13, 1, 1999), 10, 3);
+        Object aobj11[] = createItem(millisForDate(14, 1, 1999), 11, 9);
+        Object aobj12[] = createItem(millisForDate(15, 1, 1999), 12, 11);
+        Object aobj13[] = createItem(millisForDate(16, 1, 1999), 0, 0);
+        Object aobj14[][] = { aobj, aobj1, aobj2, aobj3, aobj4, aobj5, aobj6, aobj7, aobj8, aobj9, aobj10, aobj11, aobj12, aobj13 };
+        Object aobj15[][][] = { aobj14 };
+        return new DefaultWindDataset(aobj15);
     }
 
     //晶片图
@@ -254,16 +324,14 @@ public class OtherDatasetDemo extends ApplicationFrame {
     }
 
     private static XYDataset createPolarDataset() {
-        DefaultXYDataset dataset = new DefaultXYDataset();
-        //{{theta1,theta2,theta3, },{radius1,radius2,radius3,}}
-        double[][] series1 = new double[][] { { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17 },
-                { 100, 101, 102, 103, 104, 105, 106, 107, 108, 109, 110, 111, 112, 113, 114, 115, 116, 117 }, };
-
-        double[][] series2 = new double[][] { { 0, 10, 20, 30, 40, 50, 60, 70, 80, 90, 100, 110, 120, 130, 140, 150, 160, 170 },
-                { 129.6, 123.2, 117.2, 124.1, 122.6, 119.2, 116.5, 112.7, 101.5, 106.1, 110.3, 111.7, 111.0, 109.6, 113.2, 111.6, 108.8, 101.6 }, };
-        dataset.addSeries("series 1", series1);
-        dataset.addSeries("series 2", series2);
-
+        boolean notify = false;
+        XYSeriesCollection dataset = new XYSeriesCollection();
+        XYSeries series1 = new XYSeries("series 1");
+        //(theta,radius)
+        for (int i = 0; i < 20; i++) {
+            series1.add(i * 10, i * 10, notify);
+        }
+        dataset.addSeries(series1);
         return dataset;
     }
 
@@ -401,6 +469,7 @@ public class OtherDatasetDemo extends ApplicationFrame {
         ValueAxis timeAxis = new DateAxis(xAxisLabel);
         NumberAxis valueAxis = new NumberAxis(yAxisLabel);
         valueAxis.setAutoRangeIncludesZero(false);
+
         XYBoxAndWhiskerRenderer renderer = new XYBoxAndWhiskerRenderer(10.0);
         XYPlot plot = new XYPlot(dataset, timeAxis, valueAxis, renderer);
         JFreeChart chart = new JFreeChart("BoxAndWhiskerXY Chart Demo", JFreeChart.DEFAULT_TITLE_FONT, plot, legend);
@@ -431,7 +500,7 @@ public class OtherDatasetDemo extends ApplicationFrame {
 
     private static JFreeChart createWindChart(WindDataset dataset) {
         ValueAxis xAxis = new DateAxis(xAxisLabel);
-        ValueAxis yAxis = new NumberAxis(yAxisLabel);
+        ValueAxis yAxis = new NumberAxis("Direction / Force");
         yAxis.setRange(-12.0, 12.0);
 
         WindItemRenderer renderer = new WindItemRenderer();
@@ -476,15 +545,6 @@ public class OtherDatasetDemo extends ApplicationFrame {
         plot.setAngleTickUnit(new NumberTickUnit(5));
 
         return chart;
-    }
-
-    private static List<Double> createValueList(double lowerBound, double upperBound, int count) {
-        List<Double> result = new ArrayList<Double>();
-        for (int i = 0; i < count; i++) {
-            double v = lowerBound + (Math.random() * (upperBound - lowerBound));
-            result.add(new Double(v));
-        }
-        return result;
     }
 
     public static class ChartComboBox extends HEasyJComboBox<JFreeChart> implements ItemListener {
