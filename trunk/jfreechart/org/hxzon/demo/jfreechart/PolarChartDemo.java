@@ -45,6 +45,8 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import org.hxzon.swing.components.easy.HEasyJComboBox;
 import org.hxzon.swing.model.HEasyJModelValue;
@@ -57,6 +59,8 @@ import org.jfree.chart.plot.PolarPlot;
 import org.jfree.chart.renderer.DefaultPolarItemRenderer;
 import org.jfree.data.xy.DefaultXYDataset;
 import org.jfree.data.xy.XYDataset;
+import org.jfree.data.xy.XYSeries;
+import org.jfree.data.xy.XYSeriesCollection;
 import org.jfree.ui.ApplicationFrame;
 import org.jfree.ui.RectangleInsets;
 import org.jfree.ui.RefineryUtilities;
@@ -64,8 +68,13 @@ import org.jfree.ui.RefineryUtilities;
 public class PolarChartDemo extends ApplicationFrame {
 
     private static final long serialVersionUID = 1L;
+    //
+    private static String series1Name = "series 1";
+    private static double lastRadius = 40;
+    //dataset
     private static XYDataset dataset1 = createDataset1();
     private static XYDataset dataset2 = createDataset2();
+    //chart
     private static JFreeChart polarChart1 = createPolarChart(dataset1);
     private static JFreeChart polarChart2 = createPolarChart(dataset2);
 
@@ -81,20 +90,34 @@ public class PolarChartDemo extends ApplicationFrame {
         chartPanel.setPreferredSize(new Dimension(500, 270));
         getContentPane().add(chartPanel);
         getContentPane().add(new ChartComboBox(chartPanel), BorderLayout.SOUTH);
+        Timer timer = new Timer();
+        timer.scheduleAtFixedRate(new TimerTask() {
+
+            @Override
+            public void run() {
+                addValue();
+
+            }
+
+        }, 0, 200);
+    }
+
+    private static void addValue() {
+        XYSeriesCollection datasetUpdate = (XYSeriesCollection) dataset1;
+        datasetUpdate.getSeries(series1Name).add(lastRadius, lastRadius / 5);
+        lastRadius += 40;
     }
 
     private static XYDataset createDataset1() {
 
-        DefaultXYDataset dataset = new DefaultXYDataset();
-        //{{theta1,theta2,theta3, },{radius1,radius2,radius3,}}
-        double[][] series1 = new double[][] { { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17 },
-                { 100, 101, 102, 103, 104, 105, 106, 107, 108, 109, 110, 111, 112, 113, 114, 115, 116, 117 }, };
-
-        double[][] series2 = new double[][] { { 0, 10, 20, 30, 40, 50, 60, 70, 80, 90, 100, 110, 120, 130, 140, 150, 160, 170 },
-                { 129.6, 123.2, 117.2, 124.1, 122.6, 119.2, 116.5, 112.7, 101.5, 106.1, 110.3, 111.7, 111.0, 109.6, 113.2, 111.6, 108.8, 101.6 }, };
-        dataset.addSeries("series 1", series1);
-        dataset.addSeries("series 2", series2);
-
+        boolean notify = false;
+        XYSeriesCollection dataset = new XYSeriesCollection();
+        XYSeries series1 = new XYSeries(series1Name);
+        //(theta,radius)
+        series1.add(10, 2, notify);
+        series1.add(20, 4, notify);
+        series1.add(30, 6, notify);
+        dataset.addSeries(series1);
         return dataset;
     }
 
@@ -102,10 +125,18 @@ public class PolarChartDemo extends ApplicationFrame {
 
         DefaultXYDataset dataset = new DefaultXYDataset();
         //{{theta1,theta2,theta3, },{radius1,radius2,radius3,}}
-        double[][] series1 = new double[][] { { 0, 5, 10, 15, 20, 25, 30, 35, 40, 45, 50, 55, 60, 65, 70, 75, 80, 85 },
-                { 100, 110, 120, 130, 140, 150, 160, 170, 180, 190, 200, 210, 220, 230, 240, 250, 260, 270 }, };
-
+        double[][] series1 = new double[2][30];
+        for (int i = 0; i < 30; i++) {
+            series1[0][i] = 90 + i * 10;
+            series1[1][i] = i * 10;
+        }
+        double[][] series2 = new double[2][30];
+        for (int i = 0; i < 30; i++) {
+            series2[0][i] = i * 10;
+            series2[1][i] = 100;
+        }
         dataset.addSeries("series 1", series1);
+        dataset.addSeries("series 2", series2);
 
         return dataset;
     }
