@@ -16,6 +16,10 @@ public class MyNumberFormat extends NumberFormat {
         return instance;
     }
 
+    private MyNumberFormat() {
+
+    }
+
     @Override
     public StringBuffer format(double number, StringBuffer toAppendTo, FieldPosition pos) {
         if (number >= G) {

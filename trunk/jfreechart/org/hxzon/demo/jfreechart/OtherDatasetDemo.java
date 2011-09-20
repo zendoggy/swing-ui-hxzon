@@ -45,7 +45,7 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
-import java.util.Arrays;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -142,6 +142,7 @@ public class OtherDatasetDemo extends ApplicationFrame {
 //        chartPanel.setVerticalAxisTrace(true);
         chartPanel.setFillZoomRectangle(true);
         chartPanel.setMouseWheelEnabled(true);
+        chartPanel.addMouseListener(new MyChartClickHandler(chartPanel));
         chartPanel.setPreferredSize(new Dimension(500, 270));
         getContentPane().add(chartPanel);
         getContentPane().add(new ChartComboBox(chartPanel), BorderLayout.SOUTH);
@@ -192,27 +193,33 @@ public class OtherDatasetDemo extends ApplicationFrame {
     }
 
     private static BoxAndWhiskerCategoryDataset createBoxAndWhiskerCategoryDataset() {
+        int SERIES_COUNT = 3;
+        int CATEGORY_COUNT = 2;
+        int VALUE_COUNT = 10;
+
         DefaultBoxAndWhiskerCategoryDataset dataset = new DefaultBoxAndWhiskerCategoryDataset();
-        List<Integer> data1 = Arrays.asList(1, 2, 3, 4, 5, 6, 7, 8, 9, 10);
-        dataset.add(data1, "row 1", "col 1");
-        List<Integer> data2 = Arrays.asList(11, 12, 13, 14, 15, 16, 17, 18, 19, 20);
-        dataset.add(data2, "row 1", "col 2");
-        List<Integer> data3 = Arrays.asList(1, 12, 3, 14, 5, 16, 7, 8, 19, 10);
-        dataset.add(data3, "row 2", "col 1");
+
+        for (int s = 0; s < SERIES_COUNT; s++) {
+            for (int c = 0; c < CATEGORY_COUNT; c++) {
+                List<Double> values = createValueList(0, 20.0, VALUE_COUNT);
+                dataset.add(values, "Series " + s, "Category " + c);
+            }
+        }
         return dataset;
     }
 
     private static BoxAndWhiskerXYDataset createBoxAndWhiskerXYDataset() {
+        int VALUE_COUNT = 10;
         DefaultBoxAndWhiskerXYDataset dataset = new DefaultBoxAndWhiskerXYDataset("series 1");
         long time = new Date().getTime();
-        List<Integer> list = Arrays.asList(1, 2, 3, 4, 5, 6, 7, 8, 9, 10);
-        BoxAndWhiskerItem item = BoxAndWhiskerCalculator.calculateBoxAndWhiskerStatistics(list);
+        List<Double> values = createValueList(0, 20.0, VALUE_COUNT);
+        BoxAndWhiskerItem item = BoxAndWhiskerCalculator.calculateBoxAndWhiskerStatistics(values);
         dataset.add(new Date(time + 10000), item);
-        list = Arrays.asList(11, 12, 13, 14, 15, 16, 17, 18, 19, 20);
-        item = BoxAndWhiskerCalculator.calculateBoxAndWhiskerStatistics(list);
+        values = createValueList(0, 20.0, VALUE_COUNT);
+        item = BoxAndWhiskerCalculator.calculateBoxAndWhiskerStatistics(values);
         dataset.add(new Date(time + 30000), item);
-        list = Arrays.asList(1, 12, 3, 14, 5, 16, 7, 8, 19, 10);
-        item = BoxAndWhiskerCalculator.calculateBoxAndWhiskerStatistics(list);
+        values = createValueList(0, 20.0, VALUE_COUNT);
+        item = BoxAndWhiskerCalculator.calculateBoxAndWhiskerStatistics(values);
         dataset.add(new Date(time + 60000), item);
         return dataset;
     }
@@ -469,6 +476,15 @@ public class OtherDatasetDemo extends ApplicationFrame {
         plot.setAngleTickUnit(new NumberTickUnit(5));
 
         return chart;
+    }
+
+    private static List<Double> createValueList(double lowerBound, double upperBound, int count) {
+        List<Double> result = new ArrayList<Double>();
+        for (int i = 0; i < count; i++) {
+            double v = lowerBound + (Math.random() * (upperBound - lowerBound));
+            result.add(new Double(v));
+        }
+        return result;
     }
 
     public static class ChartComboBox extends HEasyJComboBox<JFreeChart> implements ItemListener {

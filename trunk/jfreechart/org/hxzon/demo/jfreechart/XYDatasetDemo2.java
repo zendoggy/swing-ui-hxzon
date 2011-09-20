@@ -92,6 +92,7 @@ public class XYDatasetDemo2 extends ApplicationFrame {
     //
     private static XYDataset dataset = createDataset();
     private static JFreeChart timeSeriesChart = createTimeSeriesChart(dataset);
+    private static JFreeChart timeSeriesChart2 = createTimeSeriesChart2(dataset);
     private static JFreeChart scatterChart = createScatterChart(dataset);
     private static JFreeChart xyLineChart = createXYLineChart(dataset);
     private static JFreeChart xyAreaChart = createXYAreaChart(dataset);
@@ -111,6 +112,7 @@ public class XYDatasetDemo2 extends ApplicationFrame {
 //        chartPanel.setVerticalAxisTrace(true);
         chartPanel.setFillZoomRectangle(true);
         chartPanel.setMouseWheelEnabled(true);
+        chartPanel.addMouseListener(new MyChartClickHandler(chartPanel));
         chartPanel.setPreferredSize(new Dimension(500, 270));
         getContentPane().add(chartPanel);
         getContentPane().add(new ChartComboBox(chartPanel), BorderLayout.SOUTH);
@@ -166,6 +168,49 @@ public class XYDatasetDemo2 extends ApplicationFrame {
     }
 
     private static JFreeChart createTimeSeriesChart(XYDataset dataset) {
+
+        DateAxis timeAxis = new DateAxis(xAxisLabel);
+        timeAxis.setLowerMargin(0.02); // reduce the default margins
+        timeAxis.setUpperMargin(0.02);
+        NumberAxis valueAxis = new NumberAxis(yAxisLabel);
+        valueAxis.setAutoRangeIncludesZero(false); // override default
+        XYPlot plot = new XYPlot(dataset, timeAxis, valueAxis, null);
+
+        XYToolTipGenerator toolTipGenerator = null;
+        if (tooltips) {
+            toolTipGenerator = StandardXYToolTipGenerator.getTimeSeriesInstance();
+        }
+
+        XYURLGenerator urlGenerator = null;
+        if (urls) {
+            urlGenerator = new StandardXYURLGenerator();
+        }
+
+        XYLineAndShapeRenderer renderer = new XYLineAndShapeRenderer(true, false);
+        renderer.setBaseToolTipGenerator(toolTipGenerator);
+        renderer.setURLGenerator(urlGenerator);
+        plot.setRenderer(renderer);
+
+        JFreeChart chart = new JFreeChart("TimeSeries Chart Demo", JFreeChart.DEFAULT_TITLE_FONT, plot, legend);
+        chart.setBackgroundPaint(Color.white);
+
+        plot.setBackgroundPaint(Color.lightGray);
+        plot.setDomainGridlinePaint(Color.white);
+        plot.setRangeGridlinePaint(Color.white);
+        plot.setAxisOffset(new RectangleInsets(5.0, 5.0, 5.0, 5.0));
+        plot.setDomainCrosshairVisible(true);
+        plot.setRangeCrosshairVisible(true);
+
+//        renderer.setBaseShapesVisible(true);
+        renderer.setBaseShapesFilled(true);
+        renderer.setDrawSeriesLineAsPath(true);
+
+        timeAxis.setDateFormatOverride(new SimpleDateFormat("MM-yyyy"));
+
+        return chart;
+    }
+    
+    private static JFreeChart createTimeSeriesChart2(XYDataset dataset) {
 
         DateAxis timeAxis = new DateAxis(xAxisLabel);
         timeAxis.setLowerMargin(0.02); // reduce the default margins
@@ -504,6 +549,7 @@ public class XYDatasetDemo2 extends ApplicationFrame {
         public ChartComboBox(ChartPanel chartPanel) {
             this.chartPanel = chartPanel;
             super.addItem(new HEasyJModelValue<JFreeChart>(timeSeriesChart, "TimeSeriesChart", false));
+            super.addItem(new HEasyJModelValue<JFreeChart>(timeSeriesChart2, "TimeSeriesChart2", false));
             super.addItem(new HEasyJModelValue<JFreeChart>(scatterChart, "ScatterChart", false));
             super.addItem(new HEasyJModelValue<JFreeChart>(xyLineChart, "XYLineChart", false));
             super.addItem(new HEasyJModelValue<JFreeChart>(xyAreaChart, "XYAreaChart", false));

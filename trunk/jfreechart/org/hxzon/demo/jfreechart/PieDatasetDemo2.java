@@ -87,6 +87,7 @@ public class PieDatasetDemo2 extends ApplicationFrame {
         ChartPanel chartPanel = new ChartPanel(pieChart);
         chartPanel.setFillZoomRectangle(true);
         chartPanel.setMouseWheelEnabled(true);
+        chartPanel.addMouseListener(new MyChartClickHandler(chartPanel));
         chartPanel.setPreferredSize(new Dimension(500, 270));
         getContentPane().add(chartPanel);
         getContentPane().add(new ChartComboBox(chartPanel), BorderLayout.SOUTH);
