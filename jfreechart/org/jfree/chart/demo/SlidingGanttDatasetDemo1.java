@@ -57,31 +57,33 @@ public class SlidingGanttDatasetDemo1 extends ApplicationFrame {
                 day1 = (Day) day1.next();
             }
 
-            TaskSeriesCollection taskseriescollection = new TaskSeriesCollection();
-            taskseriescollection.add(taskseries);
-            return taskseriescollection;
+            TaskSeriesCollection dataset = new TaskSeriesCollection();
+            dataset.add(taskseries);
+            return dataset;
         }
 
-        private static JFreeChart createChart(SlidingGanttCategoryDataset slidingganttcategorydataset) {
-            JFreeChart jfreechart = ChartFactory.createGanttChart("Gantt Chart Demo", "Task", "Date", slidingganttcategorydataset, true, true, false);
-            CategoryPlot categoryplot = (CategoryPlot) jfreechart.getPlot();
+        private static JFreeChart createChart(SlidingGanttCategoryDataset dataset) {
+            JFreeChart chart = ChartFactory.createGanttChart("Gantt Chart Demo", "Task", "Date", dataset, true, true, false);
+            CategoryPlot plot = (CategoryPlot) chart.getPlot();
             Hour hour = new Hour(1, 14, 5, 2008);
             for (int i = 0; i < 12; i++) {
                 IntervalMarker intervalmarker = new IntervalMarker(hour.getFirstMillisecond(), hour.getLastMillisecond(), Color.lightGray);
-                categoryplot.addRangeMarker(intervalmarker, Layer.BACKGROUND);
+                plot.addRangeMarker(intervalmarker, Layer.BACKGROUND);
                 hour = (Hour) hour.next().next();
             }
 
-            categoryplot.getDomainAxis().setMaximumCategoryLabelWidthRatio(10F);
-            DateAxis dateaxis = (DateAxis) categoryplot.getRangeAxis();
-            dateaxis.setRange(DatasetUtilities.findRangeBounds(slidingganttcategorydataset.getUnderlyingDataset(), true));
-            GanttRenderer ganttrenderer = (GanttRenderer) categoryplot.getRenderer();
+            plot.getDomainAxis().setMaximumCategoryLabelWidthRatio(10F);
+            DateAxis valueAxis = (DateAxis) plot.getRangeAxis();
+            //hxzon:when restoreAutoBounds,invalidation
+            valueAxis.setRange(DatasetUtilities.findRangeBounds(dataset.getUnderlyingDataset(), true));
+            GanttRenderer ganttrenderer = (GanttRenderer) plot.getRenderer();
             ganttrenderer.setDrawBarOutline(false);
             ganttrenderer.setShadowVisible(false);
-            return jfreechart;
+            return chart;
         }
 
         public void stateChanged(ChangeEvent changeevent) {
+            //SlidingGanttCategoryDataset
             dataset.setFirstCategoryIndex(scroller.getValue());
         }
 
