@@ -24,15 +24,15 @@ public class ThermometerDemo1 extends ApplicationFrame {
 
         private static final long serialVersionUID = 1L;
 
-        private static JFreeChart createChart(ValueDataset valuedataset) {
-            ThermometerPlot thermometerplot = new ThermometerPlot(valuedataset);
-            JFreeChart jfreechart = new JFreeChart("Thermometer Demo 1", JFreeChart.DEFAULT_TITLE_FONT, thermometerplot, true);
-            thermometerplot.setInsets(new RectangleInsets(5D, 5D, 5D, 5D));
-            thermometerplot.setPadding(new RectangleInsets(10D, 10D, 10D, 10D));
-            thermometerplot.setThermometerStroke(new BasicStroke(2.0F));
-            thermometerplot.setThermometerPaint(Color.lightGray);
-            thermometerplot.setUnits(1);
-            return jfreechart;
+        private static JFreeChart createChart(ValueDataset dataset) {
+            ThermometerPlot plot = new ThermometerPlot(dataset);
+            JFreeChart chart = new JFreeChart("Thermometer Demo 1", JFreeChart.DEFAULT_TITLE_FONT, plot, true);
+            plot.setInsets(new RectangleInsets(5D, 5D, 5D, 5D));
+            plot.setPadding(new RectangleInsets(10D, 10D, 10D, 10D));
+            plot.setThermometerStroke(new BasicStroke(2.0F));
+            plot.setThermometerPaint(Color.lightGray);
+            plot.setUnits(1);
+            return chart;
         }
 
         public void stateChanged(ChangeEvent changeevent) {
@@ -66,8 +66,8 @@ public class ThermometerDemo1 extends ApplicationFrame {
     }
 
     public static void main(String args[]) {
-        ThermometerDemo1 thermometerdemo1 = new ThermometerDemo1("Thermometer Demo 1");
-        thermometerdemo1.pack();
-        thermometerdemo1.setVisible(true);
+        ThermometerDemo1 demo = new ThermometerDemo1("Thermometer Demo 1");
+        demo.pack();
+        demo.setVisible(true);
     }
 }

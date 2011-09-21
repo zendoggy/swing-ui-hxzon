@@ -28,28 +28,29 @@ public class VectorRendererDemo1 extends ApplicationFrame {
         setContentPane(jpanel);
     }
 
-    private static JFreeChart createChart(VectorXYDataset vectorxydataset) {
-        NumberAxis numberaxis = new NumberAxis("X");
-        numberaxis.setStandardTickUnits(NumberAxis.createIntegerTickUnits());
-        numberaxis.setLowerMargin(0.01D);
-        numberaxis.setUpperMargin(0.01D);
-        numberaxis.setAutoRangeIncludesZero(false);
-        NumberAxis numberaxis1 = new NumberAxis("Y");
-        numberaxis1.setStandardTickUnits(NumberAxis.createIntegerTickUnits());
-        numberaxis1.setLowerMargin(0.01D);
-        numberaxis1.setUpperMargin(0.01D);
-        numberaxis1.setAutoRangeIncludesZero(false);
-        VectorRenderer vectorrenderer = new VectorRenderer();
-        vectorrenderer.setSeriesPaint(0, Color.blue);
-        XYPlot xyplot = new XYPlot(vectorxydataset, numberaxis, numberaxis1, vectorrenderer);
-        xyplot.setBackgroundPaint(Color.lightGray);
-        xyplot.setDomainGridlinePaint(Color.white);
-        xyplot.setRangeGridlinePaint(Color.white);
-        xyplot.setAxisOffset(new RectangleInsets(5D, 5D, 5D, 5D));
-        xyplot.setOutlinePaint(Color.black);
-        JFreeChart jfreechart = new JFreeChart("Vector Renderer Demo 1", xyplot);
-        jfreechart.setBackgroundPaint(Color.white);
-        return jfreechart;
+    private static JFreeChart createChart(VectorXYDataset dataset) {
+        NumberAxis xAxis = new NumberAxis("X");
+        xAxis.setStandardTickUnits(NumberAxis.createIntegerTickUnits());
+        xAxis.setLowerMargin(0.01D);
+        xAxis.setUpperMargin(0.01D);
+        xAxis.setAutoRangeIncludesZero(false);
+        NumberAxis yAxis = new NumberAxis("Y");
+        yAxis.setStandardTickUnits(NumberAxis.createIntegerTickUnits());
+        yAxis.setLowerMargin(0.01D);
+        yAxis.setUpperMargin(0.01D);
+        yAxis.setAutoRangeIncludesZero(false);
+        //
+        VectorRenderer renderer = new VectorRenderer();
+        renderer.setSeriesPaint(0, Color.blue);
+        XYPlot plot = new XYPlot(dataset, xAxis, yAxis, renderer);
+        plot.setBackgroundPaint(Color.lightGray);
+        plot.setDomainGridlinePaint(Color.white);
+        plot.setRangeGridlinePaint(Color.white);
+        plot.setAxisOffset(new RectangleInsets(5D, 5D, 5D, 5D));
+        plot.setOutlinePaint(Color.black);
+        JFreeChart chart = new JFreeChart("Vector Renderer Demo 1", plot);
+        chart.setBackgroundPaint(Color.white);
+        return chart;
     }
 
     private static VectorXYDataset createDataset() {
@@ -60,9 +61,9 @@ public class VectorRendererDemo1 extends ApplicationFrame {
 
         }
 
-        VectorSeriesCollection vectorseriescollection = new VectorSeriesCollection();
-        vectorseriescollection.addSeries(vectorseries);
-        return vectorseriescollection;
+        VectorSeriesCollection dataset = new VectorSeriesCollection();
+        dataset.addSeries(vectorseries);
+        return dataset;
     }
 
     public static JPanel createDemoPanel() {
@@ -70,9 +71,9 @@ public class VectorRendererDemo1 extends ApplicationFrame {
     }
 
     public static void main(String args[]) {
-        VectorRendererDemo1 vectorrendererdemo1 = new VectorRendererDemo1("JFreeChart : VectorRendererDemo1.java");
-        vectorrendererdemo1.pack();
-        RefineryUtilities.centerFrameOnScreen(vectorrendererdemo1);
-        vectorrendererdemo1.setVisible(true);
+        VectorRendererDemo1 demo = new VectorRendererDemo1("JFreeChart : VectorRendererDemo1.java");
+        demo.pack();
+        RefineryUtilities.centerFrameOnScreen(demo);
+        demo.setVisible(true);
     }
 }
