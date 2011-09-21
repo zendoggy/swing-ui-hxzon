@@ -42,31 +42,36 @@ public class SlidingCategoryDatasetDemo1 extends ApplicationFrame {
         SlidingCategoryDataset dataset;
 
         private static CategoryDataset createDataset() {
-            DefaultCategoryDataset defaultcategorydataset = new DefaultCategoryDataset();
+            DefaultCategoryDataset dataset = new DefaultCategoryDataset();
             for (int i = 0; i < 50; i++)
-                defaultcategorydataset.addValue(Math.random() * 100D, "S1", "Series " + i);
+                dataset.addValue(Math.random() * 100D, "S1", "Series " + i);
 
-            return defaultcategorydataset;
+            return dataset;
         }
 
-        private static JFreeChart createChart(CategoryDataset categorydataset) {
-            JFreeChart jfreechart = ChartFactory.createBarChart("SlidingCategoryDatasetDemo1", "Series", "Value", categorydataset, PlotOrientation.HORIZONTAL, false, true, false);
-            CategoryPlot categoryplot = (CategoryPlot) jfreechart.getPlot();
-            CategoryAxis categoryaxis = categoryplot.getDomainAxis();
-            categoryaxis.setMaximumCategoryLabelWidthRatio(0.8F);
-            categoryaxis.setLowerMargin(0.02D);
-            categoryaxis.setUpperMargin(0.02D);
-            NumberAxis numberaxis = (NumberAxis) categoryplot.getRangeAxis();
-            numberaxis.setStandardTickUnits(NumberAxis.createIntegerTickUnits());
-            numberaxis.setRange(0.0D, 100D);
-            BarRenderer barrenderer = (BarRenderer) categoryplot.getRenderer();
-            barrenderer.setDrawBarOutline(false);
+        private static JFreeChart createChart(CategoryDataset dataset) {
+            JFreeChart chart = ChartFactory.createBarChart("SlidingCategoryDatasetDemo1", "Series", "Value", dataset, PlotOrientation.HORIZONTAL, false, true, false);
+            CategoryPlot plot = (CategoryPlot) chart.getPlot();
+            CategoryAxis domainAxis = plot.getDomainAxis();
+            domainAxis.setMaximumCategoryLabelWidthRatio(0.8F);
+            domainAxis.setLowerMargin(0.02D);
+            domainAxis.setUpperMargin(0.02D);
+            NumberAxis valueAxis = (NumberAxis) plot.getRangeAxis();
+            valueAxis.setStandardTickUnits(NumberAxis.createIntegerTickUnits());
+            valueAxis.setRange(0.0D, 100D);//hxzon:when restoreAutoBounds,invalidation
+            BarRenderer renderer = (BarRenderer) plot.getRenderer();
+            renderer.setDrawBarOutline(false);
             GradientPaint gradientpaint = new GradientPaint(0.0F, 0.0F, Color.blue, 0.0F, 0.0F, new Color(0, 0, 64));
-            barrenderer.setSeriesPaint(0, gradientpaint);
-            return jfreechart;
+            renderer.setSeriesPaint(0, gradientpaint);
+            return chart;
         }
 
         public void stateChanged(ChangeEvent changeevent) {
+            //SlidingCategoryDataset
+            //A {@link CategoryDataset} implementation that presents a subset of the
+            // categories in an underlying dataset.  The index of the first "visible"
+            // category can be modified, which provides a means of "sliding" through
+            // the categories in the underlying dataset.
             dataset.setFirstCategoryIndex(scroller.getValue());
         }
 
