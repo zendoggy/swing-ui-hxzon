@@ -68,6 +68,8 @@ import org.jfree.ui.RefineryUtilities;
  */
 public class TimeSeriesChartDemo1 extends ApplicationFrame {
 
+    private static final long serialVersionUID = 1L;
+
     /**
      * A demonstration application showing how to create a simple time series
      * chart.  This example uses monthly data.
@@ -90,15 +92,14 @@ public class TimeSeriesChartDemo1 extends ApplicationFrame {
      */
     private static JFreeChart createChart(XYDataset dataset) {
 
-        JFreeChart chart = ChartFactory.createTimeSeriesChart(
-            "Legal & General Unit Trust Prices",  // title
-            "Date",             // x-axis label
-            "Price Per Unit",   // y-axis label
-            dataset,            // data
-            true,               // create legend?
-            true,               // generate tooltips?
-            false               // generate URLs?
-        );
+        JFreeChart chart = ChartFactory.createTimeSeriesChart("Legal & General Unit Trust Prices", // title
+                "Date", // x-axis label
+                "Price Per Unit", // y-axis label
+                dataset, // data
+                true, // create legend?
+                true, // generate tooltips?
+                false // generate URLs?
+                );
 
         chart.setBackgroundPaint(Color.white);
 
@@ -208,8 +209,7 @@ public class TimeSeriesChartDemo1 extends ApplicationFrame {
      */
     public static void main(String[] args) {
 
-        TimeSeriesChartDemo1 demo = new TimeSeriesChartDemo1(
-                "Time Series Chart Demo 1");
+        TimeSeriesChartDemo1 demo = new TimeSeriesChartDemo1("Time Series Chart Demo 1");
         demo.pack();
         RefineryUtilities.centerFrameOnScreen(demo);
         demo.setVisible(true);
