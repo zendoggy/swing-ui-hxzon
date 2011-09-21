@@ -36,35 +36,35 @@ public class SpiderWebChartDemo1 extends ApplicationFrame {
         String s5 = "Category 3";
         String s6 = "Category 4";
         String s7 = "Category 5";
-        DefaultCategoryDataset defaultcategorydataset = new DefaultCategoryDataset();
-        defaultcategorydataset.addValue(1.0D, s, s3);
-        defaultcategorydataset.addValue(4D, s, s4);
-        defaultcategorydataset.addValue(3D, s, s5);
-        defaultcategorydataset.addValue(5D, s, s6);
-        defaultcategorydataset.addValue(5D, s, s7);
-        defaultcategorydataset.addValue(5D, s1, s3);
-        defaultcategorydataset.addValue(7D, s1, s4);
-        defaultcategorydataset.addValue(6D, s1, s5);
-        defaultcategorydataset.addValue(8D, s1, s6);
-        defaultcategorydataset.addValue(4D, s1, s7);
-        defaultcategorydataset.addValue(4D, s2, s3);
-        defaultcategorydataset.addValue(3D, s2, s4);
-        defaultcategorydataset.addValue(2D, s2, s5);
-        defaultcategorydataset.addValue(3D, s2, s6);
-        defaultcategorydataset.addValue(6D, s2, s7);
-        return defaultcategorydataset;
+        DefaultCategoryDataset dataset = new DefaultCategoryDataset();
+        dataset.addValue(1.0D, s, s3);
+        dataset.addValue(4D, s, s4);
+        dataset.addValue(3D, s, s5);
+        dataset.addValue(5D, s, s6);
+        dataset.addValue(5D, s, s7);
+        dataset.addValue(5D, s1, s3);
+        dataset.addValue(7D, s1, s4);
+        dataset.addValue(6D, s1, s5);
+        dataset.addValue(8D, s1, s6);
+        dataset.addValue(4D, s1, s7);
+        dataset.addValue(4D, s2, s3);
+        dataset.addValue(3D, s2, s4);
+        dataset.addValue(2D, s2, s5);
+        dataset.addValue(3D, s2, s6);
+        dataset.addValue(6D, s2, s7);
+        return dataset;
     }
 
     private static JFreeChart createChart(CategoryDataset categorydataset) {
-        SpiderWebPlot spiderwebplot = new SpiderWebPlot(categorydataset);
-        spiderwebplot.setStartAngle(54D);
-        spiderwebplot.setInteriorGap(0.40000000000000002D);
-        spiderwebplot.setToolTipGenerator(new StandardCategoryToolTipGenerator());
-        JFreeChart jfreechart = new JFreeChart("Spider Web Chart Demo 1", TextTitle.DEFAULT_FONT, spiderwebplot, false);
-        LegendTitle legendtitle = new LegendTitle(spiderwebplot);
+        SpiderWebPlot plot = new SpiderWebPlot(categorydataset);
+        plot.setStartAngle(54D);
+        plot.setInteriorGap(0.40000000000000002D);
+        plot.setToolTipGenerator(new StandardCategoryToolTipGenerator());
+        JFreeChart chart = new JFreeChart("Spider Web Chart Demo 1", TextTitle.DEFAULT_FONT, plot, false);
+        LegendTitle legendtitle = new LegendTitle(plot);
         legendtitle.setPosition(RectangleEdge.BOTTOM);
-        jfreechart.addSubtitle(legendtitle);
-        return jfreechart;
+        chart.addSubtitle(legendtitle);
+        return chart;
     }
 
     public static JPanel createDemoPanel() {

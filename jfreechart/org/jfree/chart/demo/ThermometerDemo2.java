@@ -22,22 +22,22 @@ public class ThermometerDemo2 extends ApplicationFrame {
     }
 
     private static JFreeChart createChart() {
-        DefaultValueDataset defaultvaluedataset = new DefaultValueDataset(37.200000000000003D);
-        ThermometerPlot thermometerplot = new ThermometerPlot(defaultvaluedataset);
-        JFreeChart jfreechart = new JFreeChart("ThermometerDemo2", thermometerplot);
-        jfreechart.setBackgroundPaint(Color.white);
-        return jfreechart;
+        DefaultValueDataset dataset = new DefaultValueDataset(37.200000000000003D);
+        ThermometerPlot plot = new ThermometerPlot(dataset);
+        JFreeChart chart = new JFreeChart("ThermometerDemo2", plot);
+        chart.setBackgroundPaint(Color.white);
+        return chart;
     }
 
     public static JPanel createDemoPanel() {
-        JFreeChart jfreechart = createChart();
-        return new ChartPanel(jfreechart);
+        JFreeChart chart = createChart();
+        return new ChartPanel(chart);
     }
 
     public static void main(String args[]) {
-        ThermometerDemo2 thermometerdemo2 = new ThermometerDemo2("JFreeChart: ThermometerDemo2.java");
-        thermometerdemo2.pack();
-        RefineryUtilities.centerFrameOnScreen(thermometerdemo2);
-        thermometerdemo2.setVisible(true);
+        ThermometerDemo2 demo = new ThermometerDemo2("JFreeChart: ThermometerDemo2.java");
+        demo.pack();
+        RefineryUtilities.centerFrameOnScreen(demo);
+        demo.setVisible(true);
     }
 }
