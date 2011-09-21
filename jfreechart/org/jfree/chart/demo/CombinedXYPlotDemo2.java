@@ -36,20 +36,22 @@ public class CombinedXYPlotDemo2 extends ApplicationFrame {
     }
 
     private static JFreeChart createCombinedChart() {
-        IntervalXYDataset intervalxydataset = createDataset1();
-        XYBarRenderer xybarrenderer = new XYBarRenderer(0.20000000000000001D);
-        xybarrenderer.setBaseToolTipGenerator(new StandardXYToolTipGenerator("{0}: ({1}, {2})", new SimpleDateFormat("d-MMM-yyyy"), new DecimalFormat("0,000.0")));
-        XYPlot xyplot = new XYPlot(intervalxydataset, new DateAxis("Date"), null, xybarrenderer);
-        XYDataset xydataset = createDataset2();
-        StandardXYItemRenderer standardxyitemrenderer = new StandardXYItemRenderer();
-        standardxyitemrenderer.setBaseToolTipGenerator(new StandardXYToolTipGenerator("{0}: ({1}, {2})", new SimpleDateFormat("d-MMM-yyyy"), new DecimalFormat("0,000.0")));
-        XYPlot xyplot1 = new XYPlot(xydataset, new DateAxis("Date"), null, standardxyitemrenderer);
-        NumberAxis numberaxis = new NumberAxis("Value");
-        numberaxis.setTickMarkInsideLength(3F);
-        CombinedRangeXYPlot combinedrangexyplot = new CombinedRangeXYPlot(numberaxis);
-        combinedrangexyplot.add(xyplot, 1);
-        combinedrangexyplot.add(xyplot1, 1);
-        return new JFreeChart("Combined (Range) XY Plot", JFreeChart.DEFAULT_TITLE_FONT, combinedrangexyplot, true);
+        IntervalXYDataset dataset1 = createDataset1();
+        XYBarRenderer renderer1 = new XYBarRenderer(0.20000000000000001D);
+        renderer1.setBaseToolTipGenerator(new StandardXYToolTipGenerator("{0}: ({1}, {2})", new SimpleDateFormat("d-MMM-yyyy"), new DecimalFormat("0,000.0")));
+        XYPlot plot1 = new XYPlot(dataset1, new DateAxis("Date"), null, renderer1);
+        //
+        XYDataset dataset2 = createDataset2();
+        StandardXYItemRenderer renderer2 = new StandardXYItemRenderer();
+        renderer2.setBaseToolTipGenerator(new StandardXYToolTipGenerator("{0}: ({1}, {2})", new SimpleDateFormat("d-MMM-yyyy"), new DecimalFormat("0,000.0")));
+        XYPlot plot2 = new XYPlot(dataset2, new DateAxis("Date"), null, renderer2);
+        //
+        NumberAxis valueAxis = new NumberAxis("Value");
+        valueAxis.setTickMarkInsideLength(3F);
+        CombinedRangeXYPlot combinedPlot = new CombinedRangeXYPlot(valueAxis);
+        combinedPlot.add(plot1, 1);
+        combinedPlot.add(plot2, 1);
+        return new JFreeChart("Combined (Range) XY Plot", JFreeChart.DEFAULT_TITLE_FONT, combinedPlot, true);
     }
 
     private static IntervalXYDataset createDataset1() {

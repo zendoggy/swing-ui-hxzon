@@ -36,26 +36,29 @@ public class CombinedXYPlotDemo3 extends ApplicationFrame {
     }
 
     private static JFreeChart createCombinedChart() {
-        TimeSeriesCollection timeseriescollection = new TimeSeriesCollection();
-        TimeSeries timeseries = createEURTimeSeries();
-        timeseriescollection.addSeries(timeseries);
-        TimeSeriesCollection timeseriescollection1 = new TimeSeriesCollection();
-        TimeSeries timeseries1 = MovingAverage.createMovingAverage(timeseries, "EUR/GBP (30 Day MA)", 30, 30);
-        timeseriescollection1.addSeries(timeseries);
-        timeseriescollection1.addSeries(timeseries1);
-        TimeSeriesCollection timeseriescollection2 = new TimeSeriesCollection();
-        timeseriescollection2.addSeries(timeseries);
+        TimeSeriesCollection dataset1 = new TimeSeriesCollection();
+        TimeSeries series1 = createEURTimeSeries();
+        dataset1.addSeries(series1);
+        TimeSeriesCollection dataset2 = new TimeSeriesCollection();
+        TimeSeries series2 = MovingAverage.createMovingAverage(series1, "EUR/GBP (30 Day MA)", 30, 30);
+        dataset2.addSeries(series1);
+        dataset2.addSeries(series2);
+        TimeSeriesCollection dataset3 = new TimeSeriesCollection();
+        dataset3.addSeries(series1);
+        //
+        XYPlot plot1 = new XYPlot(dataset1, new DateAxis("Date 1"), null, new StandardXYItemRenderer());
+        XYPlot plot2 = new XYPlot(dataset2, new DateAxis("Date 2"), null, new StandardXYItemRenderer());
+        XYPlot plot3 = new XYPlot(dataset3, new DateAxis("Date 3"), null, new XYBarRenderer(0.20000000000000001D));
+        //
+        NumberAxis valueAxis = new NumberAxis("Value");
+        valueAxis.setAutoRangeIncludesZero(false);
+        CombinedRangeXYPlot combinedPlot = new CombinedRangeXYPlot(valueAxis);
+        combinedPlot.add(plot1, 1);
+        combinedPlot.add(plot2, 1);
+        combinedPlot.add(plot3, 1);
+        //chart
         JFreeChart jfreechart = null;
-        NumberAxis numberaxis = new NumberAxis("Value");
-        numberaxis.setAutoRangeIncludesZero(false);
-        CombinedRangeXYPlot combinedrangexyplot = new CombinedRangeXYPlot(numberaxis);
-        XYPlot xyplot = new XYPlot(timeseriescollection, new DateAxis("Date 1"), null, new StandardXYItemRenderer());
-        combinedrangexyplot.add(xyplot, 1);
-        XYPlot xyplot1 = new XYPlot(timeseriescollection1, new DateAxis("Date 2"), null, new StandardXYItemRenderer());
-        combinedrangexyplot.add(xyplot1, 1);
-        XYPlot xyplot2 = new XYPlot(timeseriescollection2, new DateAxis("Date 3"), null, new XYBarRenderer(0.20000000000000001D));
-        combinedrangexyplot.add(xyplot2, 1);
-        jfreechart = new JFreeChart("Demo Chart", JFreeChart.DEFAULT_TITLE_FONT, combinedrangexyplot, true);
+        jfreechart = new JFreeChart("Demo Chart", JFreeChart.DEFAULT_TITLE_FONT, combinedPlot, true);
         TextTitle texttitle = new TextTitle("This is a subtitle", new Font("SansSerif", 1, 12));
         jfreechart.addSubtitle(texttitle);
         jfreechart.setBackgroundPaint(new GradientPaint(0.0F, 0.0F, Color.white, 0.0F, 1000F, Color.blue));

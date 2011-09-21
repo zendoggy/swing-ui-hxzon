@@ -33,34 +33,37 @@ public class CombinedXYPlotDemo4 extends ApplicationFrame {
     }
 
     private static JFreeChart createCombinedChart() {
-        XYDataset xydataset = createDataset1();
-        StandardXYItemRenderer standardxyitemrenderer = new StandardXYItemRenderer();
-        NumberAxis numberaxis = new NumberAxis("Range 1");
-        XYPlot xyplot = new XYPlot(xydataset, null, numberaxis, standardxyitemrenderer);
-        xyplot.setRangeAxisLocation(AxisLocation.BOTTOM_OR_LEFT);
-        xyplot.setDataset(1, createDataset2());
-        NumberAxis numberaxis1 = new NumberAxis("Range Axis 2");
-        numberaxis1.setAutoRangeIncludesZero(false);
-        xyplot.setRangeAxis(1, numberaxis1);
-        xyplot.setRangeAxisLocation(1, AxisLocation.BOTTOM_OR_RIGHT);
-        xyplot.setRenderer(1, new StandardXYItemRenderer());
-        xyplot.mapDatasetToRangeAxis(1, 1);
+        XYDataset dataset11 = createDataset1();
+        StandardXYItemRenderer renderer11 = new StandardXYItemRenderer();
+        NumberAxis valueAxis11 = new NumberAxis("Range 1");
+        XYPlot plot1 = new XYPlot(dataset11, null, valueAxis11, renderer11);
+        plot1.setRangeAxisLocation(AxisLocation.BOTTOM_OR_LEFT);
+        plot1.setDataset(1, createDataset2());
+        NumberAxis valueAxis12 = new NumberAxis("Range Axis 2");
+        valueAxis12.setAutoRangeIncludesZero(false);
+        plot1.setRangeAxis(1, valueAxis12);
+        plot1.setRangeAxisLocation(1, AxisLocation.BOTTOM_OR_RIGHT);
+        plot1.setRenderer(1, new StandardXYItemRenderer());
+        plot1.mapDatasetToRangeAxis(1, 1);
+        //annotation
         XYTextAnnotation xytextannotation = new XYTextAnnotation("Hello!", 50D, 10000D);
         xytextannotation.setFont(new Font("SansSerif", 0, 9));
         xytextannotation.setRotationAngle(0.78539816339744828D);
-        xyplot.addAnnotation(xytextannotation);
-        XYDataset xydataset1 = createDataset2();
-        StandardXYItemRenderer standardxyitemrenderer1 = new StandardXYItemRenderer();
-        NumberAxis numberaxis2 = new NumberAxis("Range 2");
-        numberaxis2.setAutoRangeIncludesZero(false);
-        XYPlot xyplot1 = new XYPlot(xydataset1, null, numberaxis2, standardxyitemrenderer1);
-        xyplot1.setRangeAxisLocation(AxisLocation.TOP_OR_LEFT);
-        CombinedDomainXYPlot combineddomainxyplot = new CombinedDomainXYPlot(new NumberAxis("Domain"));
-        combineddomainxyplot.setGap(10D);
-        combineddomainxyplot.add(xyplot, 1);
-        combineddomainxyplot.add(xyplot1, 1);
-        combineddomainxyplot.setOrientation(PlotOrientation.VERTICAL);
-        return new JFreeChart("CombinedDomainXYPlot Demo", JFreeChart.DEFAULT_TITLE_FONT, combineddomainxyplot, true);
+        plot1.addAnnotation(xytextannotation);
+        //
+        XYDataset dataset2 = createDataset2();
+        StandardXYItemRenderer renderer2 = new StandardXYItemRenderer();
+        NumberAxis valueAxis2 = new NumberAxis("Range 2");
+        valueAxis2.setAutoRangeIncludesZero(false);
+        XYPlot plot2 = new XYPlot(dataset2, null, valueAxis2, renderer2);
+        plot2.setRangeAxisLocation(AxisLocation.TOP_OR_LEFT);
+        //
+        CombinedDomainXYPlot combinedPlot = new CombinedDomainXYPlot(new NumberAxis("Domain"));
+        combinedPlot.setGap(10D);
+        combinedPlot.add(plot1, 1);
+        combinedPlot.add(plot2, 1);
+        combinedPlot.setOrientation(PlotOrientation.VERTICAL);
+        return new JFreeChart("CombinedDomainXYPlot Demo", JFreeChart.DEFAULT_TITLE_FONT, combinedPlot, true);
     }
 
     private static XYDataset createDataset1() {

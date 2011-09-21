@@ -40,7 +40,7 @@ public class CombinedTimeSeriesDemo1 extends ApplicationFrame {
         timeseries.add(new Year(1998), 80D);
         timeseries.add(new Year(1999), 85D);
         timeseries.add(new Year(2000), 87.599999999999994D);
-        TimeSeriesCollection timeseriescollection = new TimeSeriesCollection(timeseries);
+        TimeSeriesCollection dataset1 = new TimeSeriesCollection(timeseries);
         TimeSeries timeseries1 = new TimeSeries("Monthly A");
         timeseries1.add(new Month(7, 2000), 85.799999999999997D);
         timeseries1.add(new Month(8, 2000), 85.799999999999997D);
@@ -91,9 +91,9 @@ public class CombinedTimeSeriesDemo1 extends ApplicationFrame {
         timeseries2.add(new Month(4, 2002), 88D);
         timeseries2.add(new Month(5, 2002), 88D);
         timeseries2.add(new Month(6, 2002), 88D);
-        TimeSeriesCollection timeseriescollection1 = new TimeSeriesCollection();
-        timeseriescollection1.addSeries(timeseries1);
-        timeseriescollection1.addSeries(timeseries2);
+        TimeSeriesCollection dataset21 = new TimeSeriesCollection();
+        dataset21.addSeries(timeseries1);
+        dataset21.addSeries(timeseries2);
         TimeSeries timeseries3 = new TimeSeries("XXX");
         timeseries3.add(new Month(7, 2000), 81.5D);
         timeseries3.add(new Month(8, 2000), 86D);
@@ -113,23 +113,27 @@ public class CombinedTimeSeriesDemo1 extends ApplicationFrame {
         timeseries3.add(new Month(10, 2001), 84D);
         timeseries3.add(new Month(11, 2001), 90D);
         timeseries3.add(new Month(12, 2001), 92D);
-        TimeSeriesCollection timeseriescollection2 = new TimeSeriesCollection(timeseries3);
-        XYBarRenderer xybarrenderer = new XYBarRenderer(0.20000000000000001D);
-        xybarrenderer.setBaseToolTipGenerator(new StandardXYToolTipGenerator("{0} ({1}, {2})", new SimpleDateFormat("yyyy"), new DecimalFormat("0.00")));
-        XYPlot xyplot = new XYPlot(timeseriescollection, new DateAxis("Date"), null, xybarrenderer);
-        XYAreaRenderer xyarearenderer = new XYAreaRenderer();
-        XYPlot xyplot1 = new XYPlot(timeseriescollection1, new DateAxis("Date"), null, xyarearenderer);
-        StandardXYItemRenderer standardxyitemrenderer = new StandardXYItemRenderer(3);
-        standardxyitemrenderer.setBaseShapesFilled(true);
-        xyplot1.setDataset(1, timeseriescollection2);
-        xyplot1.setRenderer(1, standardxyitemrenderer);
-        xyplot1.setDatasetRenderingOrder(DatasetRenderingOrder.FORWARD);
-        NumberAxis numberaxis = new NumberAxis("Value");
-        numberaxis.setAutoRangeIncludesZero(false);
-        CombinedRangeXYPlot combinedrangexyplot = new CombinedRangeXYPlot(numberaxis);
-        combinedrangexyplot.add(xyplot, 1);
-        combinedrangexyplot.add(xyplot1, 4);
-        JFreeChart jfreechart = new JFreeChart("Sample Combined Plot", JFreeChart.DEFAULT_TITLE_FONT, combinedrangexyplot, true);
+        TimeSeriesCollection dataset22 = new TimeSeriesCollection(timeseries3);
+        //
+        XYBarRenderer renderer1 = new XYBarRenderer(0.20000000000000001D);
+        renderer1.setBaseToolTipGenerator(new StandardXYToolTipGenerator("{0} ({1}, {2})", new SimpleDateFormat("yyyy"), new DecimalFormat("0.00")));
+        XYPlot plot1 = new XYPlot(dataset1, new DateAxis("Date"), null, renderer1);
+        //
+        XYAreaRenderer renderer21 = new XYAreaRenderer();
+        XYPlot plot2 = new XYPlot(dataset21, new DateAxis("Date"), null, renderer21);
+        StandardXYItemRenderer renderer22 = new StandardXYItemRenderer(3);
+        renderer22.setBaseShapesFilled(true);
+        plot2.setDataset(1, dataset22);
+        plot2.setRenderer(1, renderer22);
+        plot2.setDatasetRenderingOrder(DatasetRenderingOrder.FORWARD);
+        //
+        NumberAxis valueAxis = new NumberAxis("Value");
+        valueAxis.setAutoRangeIncludesZero(false);
+        CombinedRangeXYPlot combinedPlot = new CombinedRangeXYPlot(valueAxis);
+        combinedPlot.add(plot1, 1);
+        combinedPlot.add(plot2, 4);
+        //chart
+        JFreeChart jfreechart = new JFreeChart("Sample Combined Plot", JFreeChart.DEFAULT_TITLE_FONT, combinedPlot, true);
         ChartPanel chartpanel = new ChartPanel(jfreechart);
         chartpanel.setPreferredSize(new Dimension(500, 270));
         chartpanel.addChartMouseListener(new ChartMouseListener() {

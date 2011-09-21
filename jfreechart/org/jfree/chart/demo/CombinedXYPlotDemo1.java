@@ -43,21 +43,18 @@ public class CombinedXYPlotDemo1 extends ApplicationFrame {
     }
 
     private static JFreeChart createCombinedChart() {
-        IntervalXYDataset intervalxydataset = createDataset1();
-        XYLineAndShapeRenderer xylineandshaperenderer = new XYLineAndShapeRenderer(true, false);
-        xylineandshaperenderer.setBaseToolTipGenerator(new StandardXYToolTipGenerator("{0}: ({1}, {2})", new SimpleDateFormat("d-MMM-yyyy"), new DecimalFormat("0.00")));
-        xylineandshaperenderer.setSeriesStroke(0, new BasicStroke(4F, 1, 2));
-        xylineandshaperenderer.setSeriesPaint(0, Color.blue);
-        DateAxis dateaxis = new DateAxis("Year");
-        dateaxis.setLowerMargin(0.0D);
-        dateaxis.setUpperMargin(0.02D);
-        NumberAxis numberaxis = new NumberAxis("$billion");
-        XYPlot xyplot = new XYPlot(intervalxydataset, null, numberaxis, xylineandshaperenderer);
-        xyplot.setBackgroundPaint(Color.lightGray);
-        xyplot.setDomainGridlinePaint(Color.white);
-        xyplot.setRangeGridlinePaint(Color.white);
-        IntervalXYDataset intervalxydataset1 = createDataset2();
-        XYBarRenderer xybarrenderer = new XYBarRenderer() {
+        IntervalXYDataset dataset1 = createDataset1();
+        XYLineAndShapeRenderer renderer1 = new XYLineAndShapeRenderer(true, false);
+        renderer1.setBaseToolTipGenerator(new StandardXYToolTipGenerator("{0}: ({1}, {2})", new SimpleDateFormat("d-MMM-yyyy"), new DecimalFormat("0.00")));
+        renderer1.setSeriesStroke(0, new BasicStroke(4F, 1, 2));
+        renderer1.setSeriesPaint(0, Color.blue);
+        XYPlot plot1 = new XYPlot(dataset1, null, new NumberAxis("$billion"), renderer1);
+        plot1.setBackgroundPaint(Color.lightGray);
+        plot1.setDomainGridlinePaint(Color.white);
+        plot1.setRangeGridlinePaint(Color.white);
+        //
+        IntervalXYDataset dataset2 = createDataset2();
+        XYBarRenderer renderer2 = new XYBarRenderer() {
 
             private static final long serialVersionUID = 1L;
 
@@ -70,26 +67,31 @@ public class CombinedXYPlotDemo1 extends ApplicationFrame {
             }
 
         };
-        xybarrenderer.setSeriesPaint(0, Color.red);
-        xybarrenderer.setDrawBarOutline(false);
-        xybarrenderer.setBaseToolTipGenerator(new StandardXYToolTipGenerator("{0}: ({1}, {2})", new SimpleDateFormat("d-MMM-yyyy"), new DecimalFormat("0.00")));
-        XYPlot xyplot1 = new XYPlot(intervalxydataset1, null, new NumberAxis("$billion"), xybarrenderer);
-        xyplot1.setBackgroundPaint(Color.lightGray);
-        xyplot1.setDomainGridlinePaint(Color.white);
-        xyplot1.setRangeGridlinePaint(Color.white);
-        CombinedDomainXYPlot combineddomainxyplot = new CombinedDomainXYPlot(dateaxis);
-        combineddomainxyplot.add(xyplot, 3);
-        combineddomainxyplot.add(xyplot1, 2);
-        combineddomainxyplot.setGap(8D);
-        combineddomainxyplot.setDomainGridlinePaint(Color.white);
-        combineddomainxyplot.setDomainGridlinesVisible(true);
-        JFreeChart jfreechart = new JFreeChart("United States Public Debt", JFreeChart.DEFAULT_TITLE_FONT, combineddomainxyplot, false);
+        renderer2.setSeriesPaint(0, Color.red);
+        renderer2.setDrawBarOutline(false);
+        renderer2.setBaseToolTipGenerator(new StandardXYToolTipGenerator("{0}: ({1}, {2})", new SimpleDateFormat("d-MMM-yyyy"), new DecimalFormat("0.00")));
+        XYPlot plot2 = new XYPlot(dataset2, null, new NumberAxis("$billion"), renderer2);
+        plot2.setBackgroundPaint(Color.lightGray);
+        plot2.setDomainGridlinePaint(Color.white);
+        plot2.setRangeGridlinePaint(Color.white);
+        //
+        DateAxis domainAxis = new DateAxis("Year");
+        domainAxis.setLowerMargin(0.0D);
+        domainAxis.setUpperMargin(0.02D);
+        CombinedDomainXYPlot combinedPlot = new CombinedDomainXYPlot(domainAxis);
+        combinedPlot.add(plot1, 3);
+        combinedPlot.add(plot2, 2);
+        combinedPlot.setGap(8D);
+        combinedPlot.setDomainGridlinePaint(Color.white);
+        combinedPlot.setDomainGridlinesVisible(true);
+        //chart
+        JFreeChart jfreechart = new JFreeChart("United States Public Debt", JFreeChart.DEFAULT_TITLE_FONT, combinedPlot, false);
         jfreechart.setBackgroundPaint(Color.white);
         TextTitle texttitle = new TextTitle("Source: http://www.publicdebt.treas.gov/opd/opdhisms.htm", new Font("Dialog", 0, 10));
         texttitle.setPosition(RectangleEdge.BOTTOM);
         texttitle.setHorizontalAlignment(HorizontalAlignment.RIGHT);
         jfreechart.addSubtitle(texttitle);
-        LegendTitle legendtitle = new LegendTitle(combineddomainxyplot);
+        LegendTitle legendtitle = new LegendTitle(combinedPlot);
         jfreechart.addSubtitle(legendtitle);
         return jfreechart;
     }
