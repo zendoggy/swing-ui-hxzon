@@ -33,47 +33,49 @@ public class DeviationRendererDemo2 extends ApplicationFrame {
     }
 
     private static XYDataset createDataset() {
-        YIntervalSeries yintervalseries = new YIntervalSeries("Series 1");
-        YIntervalSeries yintervalseries1 = new YIntervalSeries("Series 2");
+        YIntervalSeries series1 = new YIntervalSeries("Series 1");
+        YIntervalSeries series2 = new YIntervalSeries("Series 2");
         Object obj = new Week();
         double d = 100D;
         double d1 = 100D;
         for (int i = 0; i <= 52; i++) {
             double d2 = 0.050000000000000003D * (double) i;
-            yintervalseries.add(((RegularTimePeriod) (obj)).getFirstMillisecond(), d, d - d2, d + d2);
+            series1.add(((RegularTimePeriod) (obj)).getFirstMillisecond(), d, d - d2, d + d2);
             d = (d + Math.random()) - 0.45000000000000001D;
             double d3 = 0.070000000000000007D * (double) i;
-            yintervalseries1.add(((RegularTimePeriod) (obj)).getFirstMillisecond(), d1, d1 - d3, d1 + d3);
+            series2.add(((RegularTimePeriod) (obj)).getFirstMillisecond(), d1, d1 - d3, d1 + d3);
             d1 = (d1 + Math.random()) - 0.55000000000000004D;
             obj = ((RegularTimePeriod) (obj)).next();
         }
 
-        YIntervalSeriesCollection yintervalseriescollection = new YIntervalSeriesCollection();
-        yintervalseriescollection.addSeries(yintervalseries);
-        yintervalseriescollection.addSeries(yintervalseries1);
-        return yintervalseriescollection;
+        YIntervalSeriesCollection dataset = new YIntervalSeriesCollection();
+        dataset.addSeries(series1);
+        dataset.addSeries(series2);
+        return dataset;
     }
 
     private static JFreeChart createChart(XYDataset xydataset) {
-        JFreeChart jfreechart = ChartFactory.createTimeSeriesChart("Projected Values - Test", "Date", "Index Projection", xydataset, true, true, false);
-        jfreechart.setBackgroundPaint(Color.white);
-        XYPlot xyplot = (XYPlot) jfreechart.getPlot();
-        xyplot.setInsets(new RectangleInsets(5D, 5D, 5D, 20D));
-        xyplot.setBackgroundPaint(Color.lightGray);
-        xyplot.setAxisOffset(new RectangleInsets(5D, 5D, 5D, 5D));
-        xyplot.setDomainGridlinePaint(Color.white);
-        xyplot.setRangeGridlinePaint(Color.white);
-        DeviationRenderer deviationrenderer = new DeviationRenderer(true, false);
-        deviationrenderer.setSeriesStroke(0, new BasicStroke(3F, 1, 1));
-        deviationrenderer.setSeriesStroke(0, new BasicStroke(3F, 1, 1));
-        deviationrenderer.setSeriesStroke(1, new BasicStroke(3F, 1, 1));
-        deviationrenderer.setSeriesFillPaint(0, new Color(255, 200, 200));
-        deviationrenderer.setSeriesFillPaint(1, new Color(200, 200, 255));
-        xyplot.setRenderer(deviationrenderer);
-        NumberAxis numberaxis = (NumberAxis) xyplot.getRangeAxis();
-        numberaxis.setAutoRangeIncludesZero(false);
-        numberaxis.setStandardTickUnits(NumberAxis.createIntegerTickUnits());
-        return jfreechart;
+        JFreeChart chart = ChartFactory.createTimeSeriesChart("Projected Values - Test", "Date", "Index Projection", xydataset, true, true, false);
+        chart.setBackgroundPaint(Color.white);
+        XYPlot plot = (XYPlot) chart.getPlot();
+        plot.setInsets(new RectangleInsets(5D, 5D, 5D, 20D));
+        plot.setBackgroundPaint(Color.lightGray);
+        plot.setAxisOffset(new RectangleInsets(5D, 5D, 5D, 5D));
+        plot.setDomainGridlinePaint(Color.white);
+        plot.setRangeGridlinePaint(Color.white);
+        //
+        DeviationRenderer renderer = new DeviationRenderer(true, false);
+        renderer.setSeriesStroke(0, new BasicStroke(3F, 1, 1));
+        renderer.setSeriesStroke(0, new BasicStroke(3F, 1, 1));
+        renderer.setSeriesStroke(1, new BasicStroke(3F, 1, 1));
+        renderer.setSeriesFillPaint(0, new Color(255, 200, 200));
+        renderer.setSeriesFillPaint(1, new Color(200, 200, 255));
+        plot.setRenderer(renderer);
+        //
+        NumberAxis valueAxis = (NumberAxis) plot.getRangeAxis();
+        valueAxis.setAutoRangeIncludesZero(false);
+        valueAxis.setStandardTickUnits(NumberAxis.createIntegerTickUnits());
+        return chart;
     }
 
     public static JPanel createDemoPanel() {
