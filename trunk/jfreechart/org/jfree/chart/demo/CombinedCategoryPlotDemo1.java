@@ -31,7 +31,7 @@ public class CombinedCategoryPlotDemo1 extends ApplicationFrame {
     }
 
     public static CategoryDataset createDataset1() {
-        DefaultCategoryDataset defaultcategorydataset = new DefaultCategoryDataset();
+        DefaultCategoryDataset dataset = new DefaultCategoryDataset();
         String s = "First";
         String s1 = "Second";
         String s2 = "Type 1";
@@ -42,27 +42,27 @@ public class CombinedCategoryPlotDemo1 extends ApplicationFrame {
         String s7 = "Type 6";
         String s8 = "Type 7";
         String s9 = "Type 8";
-        defaultcategorydataset.addValue(1.0D, s, s2);
-        defaultcategorydataset.addValue(4D, s, s3);
-        defaultcategorydataset.addValue(3D, s, s4);
-        defaultcategorydataset.addValue(5D, s, s5);
-        defaultcategorydataset.addValue(5D, s, s6);
-        defaultcategorydataset.addValue(7D, s, s7);
-        defaultcategorydataset.addValue(7D, s, s8);
-        defaultcategorydataset.addValue(8D, s, s9);
-        defaultcategorydataset.addValue(5D, s1, s2);
-        defaultcategorydataset.addValue(7D, s1, s3);
-        defaultcategorydataset.addValue(6D, s1, s4);
-        defaultcategorydataset.addValue(8D, s1, s5);
-        defaultcategorydataset.addValue(4D, s1, s6);
-        defaultcategorydataset.addValue(4D, s1, s7);
-        defaultcategorydataset.addValue(2D, s1, s8);
-        defaultcategorydataset.addValue(1.0D, s1, s9);
-        return defaultcategorydataset;
+        dataset.addValue(1.0D, s, s2);
+        dataset.addValue(4D, s, s3);
+        dataset.addValue(3D, s, s4);
+        dataset.addValue(5D, s, s5);
+        dataset.addValue(5D, s, s6);
+        dataset.addValue(7D, s, s7);
+        dataset.addValue(7D, s, s8);
+        dataset.addValue(8D, s, s9);
+        dataset.addValue(5D, s1, s2);
+        dataset.addValue(7D, s1, s3);
+        dataset.addValue(6D, s1, s4);
+        dataset.addValue(8D, s1, s5);
+        dataset.addValue(4D, s1, s6);
+        dataset.addValue(4D, s1, s7);
+        dataset.addValue(2D, s1, s8);
+        dataset.addValue(1.0D, s1, s9);
+        return dataset;
     }
 
     public static CategoryDataset createDataset2() {
-        DefaultCategoryDataset defaultcategorydataset = new DefaultCategoryDataset();
+        DefaultCategoryDataset dataset = new DefaultCategoryDataset();
         String s = "Third";
         String s1 = "Fourth";
         String s2 = "Type 1";
@@ -73,46 +73,48 @@ public class CombinedCategoryPlotDemo1 extends ApplicationFrame {
         String s7 = "Type 6";
         String s8 = "Type 7";
         String s9 = "Type 8";
-        defaultcategorydataset.addValue(11D, s, s2);
-        defaultcategorydataset.addValue(14D, s, s3);
-        defaultcategorydataset.addValue(13D, s, s4);
-        defaultcategorydataset.addValue(15D, s, s5);
-        defaultcategorydataset.addValue(15D, s, s6);
-        defaultcategorydataset.addValue(17D, s, s7);
-        defaultcategorydataset.addValue(17D, s, s8);
-        defaultcategorydataset.addValue(18D, s, s9);
-        defaultcategorydataset.addValue(15D, s1, s2);
-        defaultcategorydataset.addValue(17D, s1, s3);
-        defaultcategorydataset.addValue(16D, s1, s4);
-        defaultcategorydataset.addValue(18D, s1, s5);
-        defaultcategorydataset.addValue(14D, s1, s6);
-        defaultcategorydataset.addValue(14D, s1, s7);
-        defaultcategorydataset.addValue(12D, s1, s8);
-        defaultcategorydataset.addValue(11D, s1, s9);
-        return defaultcategorydataset;
+        dataset.addValue(11D, s, s2);
+        dataset.addValue(14D, s, s3);
+        dataset.addValue(13D, s, s4);
+        dataset.addValue(15D, s, s5);
+        dataset.addValue(15D, s, s6);
+        dataset.addValue(17D, s, s7);
+        dataset.addValue(17D, s, s8);
+        dataset.addValue(18D, s, s9);
+        dataset.addValue(15D, s1, s2);
+        dataset.addValue(17D, s1, s3);
+        dataset.addValue(16D, s1, s4);
+        dataset.addValue(18D, s1, s5);
+        dataset.addValue(14D, s1, s6);
+        dataset.addValue(14D, s1, s7);
+        dataset.addValue(12D, s1, s8);
+        dataset.addValue(11D, s1, s9);
+        return dataset;
     }
 
     private static JFreeChart createChart() {
-        CategoryDataset categorydataset = createDataset1();
-        NumberAxis numberaxis = new NumberAxis("Value");
-        numberaxis.setStandardTickUnits(NumberAxis.createIntegerTickUnits());
-        LineAndShapeRenderer lineandshaperenderer = new LineAndShapeRenderer();
-        lineandshaperenderer.setBaseToolTipGenerator(new StandardCategoryToolTipGenerator());
-        CategoryPlot categoryplot = new CategoryPlot(categorydataset, null, numberaxis, lineandshaperenderer);
-        categoryplot.setDomainGridlinesVisible(true);
-        CategoryDataset categorydataset1 = createDataset2();
-        NumberAxis numberaxis1 = new NumberAxis("Value");
-        numberaxis1.setStandardTickUnits(NumberAxis.createIntegerTickUnits());
-        BarRenderer barrenderer = new BarRenderer();
-        barrenderer.setBaseToolTipGenerator(new StandardCategoryToolTipGenerator());
-        CategoryPlot categoryplot1 = new CategoryPlot(categorydataset1, null, numberaxis1, barrenderer);
-        categoryplot1.setDomainGridlinesVisible(true);
-        CategoryAxis categoryaxis = new CategoryAxis("Category");
-        CombinedDomainCategoryPlot combineddomaincategoryplot = new CombinedDomainCategoryPlot(categoryaxis);
-        combineddomaincategoryplot.add(categoryplot, 2);
-        combineddomaincategoryplot.add(categoryplot1, 1);
-        JFreeChart jfreechart = new JFreeChart("Combined Domain Category Plot Demo", new Font("SansSerif", 1, 12), combineddomaincategoryplot, true);
-        return jfreechart;
+        CategoryDataset dataset1 = createDataset1();
+        NumberAxis valueAxis1 = new NumberAxis("Value");
+        valueAxis1.setStandardTickUnits(NumberAxis.createIntegerTickUnits());
+        LineAndShapeRenderer renderer1 = new LineAndShapeRenderer();
+        renderer1.setBaseToolTipGenerator(new StandardCategoryToolTipGenerator());
+        CategoryPlot plot1 = new CategoryPlot(dataset1, null, valueAxis1, renderer1);
+        plot1.setDomainGridlinesVisible(true);
+        //
+        CategoryDataset dataset2 = createDataset2();
+        NumberAxis valueAxis2 = new NumberAxis("Value");
+        valueAxis2.setStandardTickUnits(NumberAxis.createIntegerTickUnits());
+        BarRenderer renderer2 = new BarRenderer();
+        renderer2.setBaseToolTipGenerator(new StandardCategoryToolTipGenerator());
+        CategoryPlot plot2 = new CategoryPlot(dataset2, null, valueAxis2, renderer2);
+        plot2.setDomainGridlinesVisible(true);
+        //
+        CategoryAxis domainAxis = new CategoryAxis("Category");
+        CombinedDomainCategoryPlot combinedPlot = new CombinedDomainCategoryPlot(domainAxis);
+        combinedPlot.add(plot1, 2);
+        combinedPlot.add(plot2, 1);
+        JFreeChart chart = new JFreeChart("Combined Domain Category Plot Demo", new Font("SansSerif", 1, 12), combinedPlot, true);
+        return chart;
     }
 
     public static JPanel createDemoPanel() {
@@ -122,9 +124,9 @@ public class CombinedCategoryPlotDemo1 extends ApplicationFrame {
 
     public static void main(String args[]) {
         String s = "Combined Category Plot Demo 1";
-        CombinedCategoryPlotDemo1 combinedcategoryplotdemo1 = new CombinedCategoryPlotDemo1(s);
-        combinedcategoryplotdemo1.pack();
-        RefineryUtilities.centerFrameOnScreen(combinedcategoryplotdemo1);
-        combinedcategoryplotdemo1.setVisible(true);
+        CombinedCategoryPlotDemo1 demo = new CombinedCategoryPlotDemo1(s);
+        demo.pack();
+        RefineryUtilities.centerFrameOnScreen(demo);
+        demo.setVisible(true);
     }
 }
