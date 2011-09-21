@@ -36,20 +36,20 @@ public class OverlaidXYPlotDemo1 extends ApplicationFrame {
     }
 
     private static JFreeChart createChart() {
-        IntervalXYDataset intervalxydataset = createDataset1();
-        XYBarRenderer xybarrenderer = new XYBarRenderer(0.20000000000000001D);
-        xybarrenderer.setBaseToolTipGenerator(new StandardXYToolTipGenerator("{0}: ({1}, {2})", new SimpleDateFormat("d-MMM-yyyy"), new DecimalFormat("0.00")));
-        DateAxis dateaxis = new DateAxis("Date");
-        dateaxis.setTickMarkPosition(DateTickMarkPosition.MIDDLE);
-        NumberAxis numberaxis = new NumberAxis("Value");
-        XYPlot xyplot = new XYPlot(intervalxydataset, dateaxis, numberaxis, xybarrenderer);
-        XYDataset xydataset = createDataset2();
-        StandardXYItemRenderer standardxyitemrenderer = new StandardXYItemRenderer();
-        standardxyitemrenderer.setBaseToolTipGenerator(new StandardXYToolTipGenerator("{0}: ({1}, {2})", new SimpleDateFormat("d-MMM-yyyy"), new DecimalFormat("0.00")));
-        xyplot.setDataset(1, xydataset);
-        xyplot.setRenderer(1, standardxyitemrenderer);
-        xyplot.setDatasetRenderingOrder(DatasetRenderingOrder.FORWARD);
-        return new JFreeChart("Overlaid XYPlot Demo 1", JFreeChart.DEFAULT_TITLE_FONT, xyplot, true);
+        IntervalXYDataset dataset1 = createDataset1();
+        XYBarRenderer renderer1 = new XYBarRenderer(0.20000000000000001D);
+        renderer1.setBaseToolTipGenerator(new StandardXYToolTipGenerator("{0}: ({1}, {2})", new SimpleDateFormat("d-MMM-yyyy"), new DecimalFormat("0.00")));
+        DateAxis domainAxis = new DateAxis("Date");
+        domainAxis.setTickMarkPosition(DateTickMarkPosition.MIDDLE);
+        NumberAxis valueAxis = new NumberAxis("Value");
+        XYPlot plot = new XYPlot(dataset1, domainAxis, valueAxis, renderer1);
+        XYDataset dataset2 = createDataset2();
+        StandardXYItemRenderer renderer2 = new StandardXYItemRenderer();
+        renderer2.setBaseToolTipGenerator(new StandardXYToolTipGenerator("{0}: ({1}, {2})", new SimpleDateFormat("d-MMM-yyyy"), new DecimalFormat("0.00")));
+        plot.setDataset(1, dataset2);
+        plot.setRenderer(1, renderer2);
+        plot.setDatasetRenderingOrder(DatasetRenderingOrder.FORWARD);
+        return new JFreeChart("Overlaid XYPlot Demo 1", JFreeChart.DEFAULT_TITLE_FONT, plot, true);
     }
 
     private static IntervalXYDataset createDataset1() {

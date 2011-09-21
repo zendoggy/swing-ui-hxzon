@@ -38,22 +38,22 @@ public class OverlaidXYPlotDemo2 extends ApplicationFrame {
     }
 
     private static JFreeChart createChart() {
-        DateAxis dateaxis = new DateAxis("Date");
-        dateaxis.setTickMarkPosition(DateTickMarkPosition.MIDDLE);
-        NumberAxis numberaxis = new NumberAxis("Value");
-        IntervalXYDataset intervalxydataset = createDataset1();
-        XYBarRenderer xybarrenderer = new XYBarRenderer(0.20000000000000001D);
-        xybarrenderer.setBaseToolTipGenerator(new StandardXYToolTipGenerator("{0}: ({1}, {2})", new SimpleDateFormat("d-MMM-yyyy"), new DecimalFormat("0.00")));
-        XYPlot xyplot = new XYPlot(intervalxydataset, dateaxis, numberaxis, xybarrenderer);
-        NumberAxis numberaxis1 = new NumberAxis("Value 2");
-        xyplot.setRangeAxis(1, numberaxis1);
-        XYDataset xydataset = createDataset2A();
-        StandardXYItemRenderer standardxyitemrenderer = new StandardXYItemRenderer();
-        standardxyitemrenderer.setBaseToolTipGenerator(new StandardXYToolTipGenerator("{0}: ({1}, {2})", new SimpleDateFormat("d-MMM-yyyy"), new DecimalFormat("0.00")));
-        xyplot.setDataset(1, xydataset);
-        xyplot.setRenderer(1, standardxyitemrenderer);
-        XYDataset xydataset1 = createDataset2B();
-        xyplot.setDataset(2, xydataset1);
+        DateAxis domainAxis = new DateAxis("Date");
+        domainAxis.setTickMarkPosition(DateTickMarkPosition.MIDDLE);
+        NumberAxis valueAxis1 = new NumberAxis("Value");
+        IntervalXYDataset dataset1 = createDataset1();
+        XYBarRenderer renderer1 = new XYBarRenderer(0.20000000000000001D);
+        renderer1.setBaseToolTipGenerator(new StandardXYToolTipGenerator("{0}: ({1}, {2})", new SimpleDateFormat("d-MMM-yyyy"), new DecimalFormat("0.00")));
+        XYPlot xyplot = new XYPlot(dataset1, domainAxis, valueAxis1, renderer1);
+        NumberAxis valueAxis2 = new NumberAxis("Value 2");
+        xyplot.setRangeAxis(1, valueAxis2);
+        XYDataset dataset2 = createDataset2A();
+        StandardXYItemRenderer renderer2 = new StandardXYItemRenderer();
+        renderer2.setBaseToolTipGenerator(new StandardXYToolTipGenerator("{0}: ({1}, {2})", new SimpleDateFormat("d-MMM-yyyy"), new DecimalFormat("0.00")));
+        xyplot.setDataset(1, dataset2);
+        xyplot.setRenderer(1, renderer2);
+        XYDataset dataset3 = createDataset2B();
+        xyplot.setDataset(2, dataset3);
         xyplot.setRenderer(2, new StandardXYItemRenderer());
         xyplot.mapDatasetToRangeAxis(2, 1);
         xyplot.setDatasetRenderingOrder(DatasetRenderingOrder.FORWARD);
