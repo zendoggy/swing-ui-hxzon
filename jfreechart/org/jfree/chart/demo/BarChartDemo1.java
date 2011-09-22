@@ -44,6 +44,8 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.GradientPaint;
 
+import javax.swing.JPanel;
+
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartPanel;
 import org.jfree.chart.JFreeChart;
@@ -183,6 +185,15 @@ public class BarChartDemo1 extends ApplicationFrame {
 
         return chart;
 
+    }
+
+    public static JPanel createDemoPanel() {
+        CategoryDataset dataset = createDataset();
+        JFreeChart chart = createChart(dataset);
+        ChartPanel chartPanel = new ChartPanel(chart);
+        chartPanel.setFillZoomRectangle(true);
+        chartPanel.setMouseWheelEnabled(true);
+        return chartPanel;
     }
 
     /**
