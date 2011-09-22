@@ -58,7 +58,7 @@ public class DialDemo3 extends JFrame {
             standarddialscale.setTickRadius(0.88D);
             standarddialscale.setTickLabelOffset(0.070000000000000007D);
             standarddialscale.setMajorTickIncrement(25D);
-            standarddialscale.setTickLabelPaint(null);
+//            standarddialscale.setTickLabelPaint(null);
             dialplot.addScale(0, standarddialscale);
             DialPointer.Pin pin = new DialPointer.Pin();
             pin.setRadius(0.81999999999999995D);

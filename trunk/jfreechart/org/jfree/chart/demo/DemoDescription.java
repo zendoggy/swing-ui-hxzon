@@ -6,7 +6,7 @@ public class DemoDescription {
     private String description;
 
     public DemoDescription(String s, String s1) {
-        className = s;
+        className = "org.jfree.chart.demo." + s;
         description = s1;
     }
 
