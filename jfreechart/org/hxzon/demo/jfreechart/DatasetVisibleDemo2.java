@@ -188,6 +188,9 @@ public class DatasetVisibleDemo2 extends ApplicationFrame {
         renderer.setBaseShapesVisible(true);
         renderer.setBaseShapesFilled(true);
         renderer.setDrawSeriesLineAsPath(true);
+        //AbstractRenderer.dataBoundsIncludesVisibleSeriesOnly
+        renderer.setDataBoundsIncludesVisibleSeriesOnly(false);
+        renderer.setBaseSeriesVisibleInLegend(true);
         //Plot
         XYPlot plot = new XYPlot(dataset, timeAxis, valueAxis, null) {
             private static final long serialVersionUID = 1L;
@@ -240,9 +243,10 @@ public class DatasetVisibleDemo2 extends ApplicationFrame {
             TimeSeriesCollection timeSeriesDataset = (TimeSeriesCollection) dataset;
             int index = timeSeriesDataset.getSeries().indexOf(timeSeriesDataset.getSeries(name));
             boolean visible = e.getStateChange() == ItemEvent.SELECTED;
-            //            renderer.setSeriesVisible(index, visible);
-            renderer.setSeriesLinesVisible(index, visible);
-            renderer.setSeriesShapesVisible(index, visible);
+            renderer.setSeriesVisible(index, visible);
+            renderer.setSeriesVisibleInLegend(index, true);//invalidation
+//            renderer.setSeriesLinesVisible(index, visible);
+//            renderer.setSeriesShapesVisible(index, visible);
 //            chartPanel.restoreAutoRangeBounds();
         }
     }

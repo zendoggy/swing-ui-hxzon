@@ -84,5 +84,7 @@
 	<classpathentry kind="lib" path="lib/other/ognl-3.0.jar"/>
 	<classpathentry kind="lib" path="lib/other/commons-lang-2.4.jar"/>
 	<classpathentry kind="lib" path="lib/other/bcprov-jdk16-146.jar" sourcepath="lib/other/bcprov-jdk16-146-src.zip"/>
+	<classpathentry kind="lib" path="lib/other/itext-xtra-5.1.2.jar" sourcepath="lib/other/itext-xtra-5.1.2-sources.jar"/>
+	<classpathentry kind="lib" path="lib/other/itextpdf-5.1.2.jar" sourcepath="lib/other/itextpdf-5.1.2-sources.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
